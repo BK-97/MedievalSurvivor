@@ -36,7 +36,6 @@ public class GameManager : Singleton<GameManager>
     private bool isStageCompleted;
     public bool IsStageCompleted { get { return isStageCompleted; } set { isStageCompleted = value; } }
 
-    public GameConfig GameConfig;
 
     private void OnEnable()
     {

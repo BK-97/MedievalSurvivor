@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 1647220061}
   - component: {fileID: 1647220060}
   - component: {fileID: 1647220059}
+  - component: {fileID: 1647220065}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -305,6 +306,30 @@ MonoBehaviour:
   DragableSurface:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &1647220065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1647220057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1e45c477b3424c44b8fea48dc902402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnGameStart:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGameEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStageSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStageFail:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2095341340
 GameObject:
   m_ObjectHideFlags: 0
