@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class CharacterHealthController : MonoBehaviour, IDamagable
 {
-    public void SetHealth()
+    private float currentHealth;
+    public void SetHealth(float health)
     {
-
+        currentHealth = health;
     }
     public int GetCurrentHealth()
     {
         return 0;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
 
     }
@@ -23,7 +24,7 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
 
     }
 
-    public void Regenerate(int regenAmount)
+    public void Regenerate(float regenAmount)
     {
 
     }

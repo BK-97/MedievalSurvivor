@@ -1,8 +1,8 @@
 public interface IDamagable
 {
-    void SetHealth();
+    void SetHealth(float health);
     int GetCurrentHealth();
-    void TakeDamage(int damage);
+    void TakeDamage(float damage);
     void Die();
-    void Regenerate(int regenAmount);
+    void Regenerate(float regenAmount);
 }

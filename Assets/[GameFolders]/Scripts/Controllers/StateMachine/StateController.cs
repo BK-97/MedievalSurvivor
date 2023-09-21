@@ -10,14 +10,21 @@ public class StateController : MonoBehaviour
     public MoveState moveState = new MoveState();
     public AttackState attackState = new AttackState();
     #endregion
+    #region Data
+    public CharacterData characterData;
+    #endregion
     #region Controllers
     public CharacterMovementController MovementController;
     public CharacterAttackController AttackController;
+    public CharacterHealthController HealthController;
 
     #endregion
 
     private void Start()
     {
+        HealthController.SetHealth(characterData.Health);
+        AttackController.SetAttackData(characterData.BaseDamage);
+        MovementController.SetSpeed(characterData.MoveSpeed);
         idleState.EnterState(this);
         currentState = idleState;
     }

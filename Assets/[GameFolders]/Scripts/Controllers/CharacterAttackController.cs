@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class CharacterAttackController : MonoBehaviour
 {
+    float currentDamage;
+    public void SetAttackData(float damage)
+    {
+        currentDamage = damage;
+    }
     public void AttackState()
     {
-        Debug.Log("AttackState");
+        
     }
 }

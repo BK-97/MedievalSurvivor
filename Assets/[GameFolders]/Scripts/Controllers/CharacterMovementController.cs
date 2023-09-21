@@ -5,10 +5,14 @@ using UnityEngine;
 public class CharacterMovementController : MonoBehaviour
 {
     private Rigidbody rb = null;
-    public float moveSpeed=3;
+    private float moveSpeed;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+    public void SetSpeed(int speed)
+    {
+        moveSpeed = speed;
     }
     public void Move()
     {
