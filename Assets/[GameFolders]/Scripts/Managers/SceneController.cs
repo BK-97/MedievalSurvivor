@@ -53,6 +53,7 @@ public class SceneController : Singleton<SceneController>
         }
 
         OnSceneInfo.Invoke(loadedScene, true);
+        GameManager.Instance.IsGameStarted = true;
         loadingInProgress = false;
     }
 

@@ -287,25 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8922f02ed55a3544bb21c372624c9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputDirection: {x: 0, y: 0, z: 0}
-  OnTapInput:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTapDown:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTapUp:
-    m_PersistentCalls:
-      m_Calls: []
-  minSwipeLength: 0.5
-  triggerSwipeAtMinLength: 0
-  useEightDirections: 0
-  OnSwipeFail:
-    m_PersistentCalls:
-      m_Calls: []
-  DragableSurface:
+  groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!114 &1647220065
 MonoBehaviour:
   m_ObjectHideFlags: 0
