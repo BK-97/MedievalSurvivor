@@ -28,11 +28,11 @@ public class StateController : MonoBehaviour
         if (currentState == null)
             return;
         if (CheckAttackInput())
-            SwitchState(attackState);
+            currentState.ExitState(this,attackState);
         else if (CheckMovementInput())
-            SwitchState(moveState);
+            currentState.ExitState(this, moveState);
         else
-            SwitchState(idleState);
+            currentState.ExitState(this, idleState);
         currentState.UpdateState(this);
     }
     private void FixedUpdate()

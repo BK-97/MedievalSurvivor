@@ -12,6 +12,7 @@ public class MoveState : BaseState
 
     public override void ExitState(StateController stateController, BaseState nextState)
     {
+        stateController.MovementController.Move();
         stateController.SwitchState(nextState);
     }
 

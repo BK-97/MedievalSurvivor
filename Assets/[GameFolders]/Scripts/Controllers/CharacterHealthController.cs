@@ -2,17 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterHealthController : MonoBehaviour
+public class CharacterHealthController : MonoBehaviour, IDamagable
 {
-    // Start is called before the first frame update
-    void Start()
+    public void SetHealth()
     {
-        
+
+    }
+    public int GetCurrentHealth()
+    {
+        return 0;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damage)
     {
-        
+
     }
+
+    public void Die()
+    {
+
+    }
+
+    public void Regenerate(int regenAmount)
+    {
+
+    }
+
 }
