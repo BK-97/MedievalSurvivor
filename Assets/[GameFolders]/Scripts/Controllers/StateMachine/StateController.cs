@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterMovementController))]
+[RequireComponent(typeof(CharacterAttackController))]
+[RequireComponent(typeof(CharacterHealthController))]
 public class StateController : MonoBehaviour
 {
     #region StateParams
@@ -14,10 +17,14 @@ public class StateController : MonoBehaviour
     public CharacterData characterData;
     #endregion
     #region Controllers
-    public CharacterMovementController MovementController;
-    public CharacterAttackController AttackController;
-    public CharacterHealthController HealthController;
-    public CharacterAnimationController AnimController;
+    private CharacterMovementController movementController;
+    public CharacterMovementController MovementController { get { return (movementController == null) ? movementController = GetComponent<CharacterMovementController>() : movementController; } }
+    private CharacterAttackController attackController;
+    public CharacterAttackController AttackController { get { return (attackController == null) ? attackController = GetComponent<CharacterAttackController>() : attackController; } }
+    private CharacterHealthController healthController;
+    public CharacterHealthController HealthController { get { return (healthController == null) ? healthController = GetComponent<CharacterHealthController>() : healthController; } }
+    private CharacterAnimationController animController;
+    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
 
     #endregion
 
@@ -78,6 +85,21 @@ public class StateController : MonoBehaviour
         currentState.EnterState(this);
     }
 
+    float noOfClicks = 0;
+    float maxComboDelay = 1;
+    float lastClickedTime = 0;
+    float nextAttackTime = 0;
+    float coolDownTime = 2f;
+
+    void OnClick()
+    {
+        lastClickedTime = Time.time;
+        noOfClicks++;
+        if(noOfClicks==1)
+        {
+
+        }
+    }
     #region CheckMethods
     private bool CheckMovementInput()
     {

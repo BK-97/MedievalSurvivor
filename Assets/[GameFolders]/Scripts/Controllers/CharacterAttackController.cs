@@ -9,8 +9,13 @@ public class CharacterAttackController : MonoBehaviour
     {
         currentDamage = damage;
     }
+    bool isAttacking;
     public void AttackState()
     {
-        
+        isAttacking = true;
+    }
+    public void AttackEnd()
+    {
+        isAttacking = false;
     }
 }
