@@ -17,6 +17,7 @@ public class StateController : MonoBehaviour
     public CharacterMovementController MovementController;
     public CharacterAttackController AttackController;
     public CharacterHealthController HealthController;
+    public CharacterAnimationController AnimController;
 
     #endregion
 
@@ -34,13 +35,33 @@ public class StateController : MonoBehaviour
             return;
         if (currentState == null)
             return;
-        if (CheckAttackInput())
-            currentState.ExitState(this,attackState);
-        else if (CheckMovementInput())
-            currentState.ExitState(this, moveState);
-        else
-            currentState.ExitState(this, idleState);
+
         currentState.UpdateState(this);
+
+        AnimController.SetSpeed(MovementController.GetCurrentSpeed(), characterData.MoveSpeed);
+
+        if (CheckAttackInput())
+        {
+            if(currentState!=attackState)
+                currentState.ExitState(this, attackState);
+        }
+        else
+        {
+            if (currentState == attackState)
+                currentState.ExitState(this, idleState);
+
+        }
+        if (CheckMovementInput())
+        {
+            if (currentState != moveState&&currentState!=attackState)
+                currentState.ExitState(this, moveState);
+        }
+        else
+        {
+            if (currentState == moveState)
+                currentState.ExitState(this, idleState);
+        }
+
     }
     private void FixedUpdate()
     {
@@ -56,7 +77,7 @@ public class StateController : MonoBehaviour
         currentState = changeState;
         currentState.EnterState(this);
     }
-    
+
     #region CheckMethods
     private bool CheckMovementInput()
     {

@@ -107,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff1c2148137650428ac1fed1e06bdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
 --- !u!54 &1041740490257946950
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,8 +149,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff48ca2d2d3e70479e74881f54dad24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterData: {fileID: 11400000, guid: a6dbb81d4a4f657429bd4362d86cf9ec, type: 2}
   MovementController: {fileID: 1041740490257946947}
   AttackController: {fileID: 1041740490257946949}
+  HealthController: {fileID: 1041740490257946946}
+  AnimController: {fileID: 8240424946130860160}
 --- !u!114 &5564467954400055501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,36 +234,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paladin
       objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.y
-      value: 0.95578784
-      objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[0].m_Value.z
-      value: 0.0050036493
-      objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.x
-      value: -9.0596383e-13
-      objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.y
-      value: -0.00000055543774
-      objectReference: {fileID: 0}
-    - target: {fileID: 2123381643207829081, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
-        type: 3}
-      propertyPath: m_PropertySheet.m_Vector3f.m_Array.Array.data[1].m_Value.z
-      value: -0.000082421815
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5310a531a7fa0c14fa9e2ac6752978d3, type: 3}
 --- !u!4 &731513852055834348 stripped
@@ -270,3 +242,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1041740490192033415}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8240424946130860160 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8948335391852473863, guid: 5310a531a7fa0c14fa9e2ac6752978d3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1041740490192033415}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b651a9f9c9993df4a8b86b553c37d318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
