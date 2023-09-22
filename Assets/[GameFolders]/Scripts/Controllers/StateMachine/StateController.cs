@@ -61,8 +61,7 @@ public class StateController : MonoBehaviour
         {
             if (animController.comboContinue)
                 return;
-            //if (!animController.IsPlayingAnimation("Idle"))
-            //    return;
+
             if (currentState == attackState)
                 currentState.ExitState(this, idleState);
 

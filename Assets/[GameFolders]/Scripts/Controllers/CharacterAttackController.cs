@@ -18,5 +18,4 @@ public class CharacterAttackController : MonoBehaviour
     {
         isAttacking = false;
     }
-
 }

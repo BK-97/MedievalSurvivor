@@ -27,6 +27,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.Rotate.performed += SetMousePos;
         input.Player.Attack.performed += OnAttackPerformed;
         input.Player.Attack.canceled += OnAttackCancelled;
+        input.Player.WeaponChange.performed += ctx => WeaponController.OnWeaponChange.Invoke();
+
     }
     private void OnDisable()
     {
@@ -36,6 +38,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.Rotate.performed -= SetMousePos;
         input.Player.Attack.performed -= OnAttackPerformed;
         input.Player.Attack.canceled -= OnAttackCancelled;
+        input.Player.WeaponChange.performed -= ctx => WeaponController.OnWeaponChange.Invoke();
+
     }
     private void Update()
     {

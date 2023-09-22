@@ -16,6 +16,10 @@ public class CharacterAnimationController : MonoBehaviour
         animator.SetFloat(AnimationKeys.SPEED, normalizedSpeed);
 
     }
+    public void SetWeaponIndex(int weaponIndex)
+    {
+        animator.SetInteger(AnimationKeys.WEAPON_INDEX, weaponIndex);
+    }
     public void AttackAnimation(bool status)
     {
         animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
@@ -24,7 +28,6 @@ public class CharacterAnimationController : MonoBehaviour
         {
             comboContinue = false;
         }
-
     }
 
     public bool IsInComboWindow()

@@ -62,6 +62,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""464797bd-baf6-4b52-9332-8be896414915"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +161,17 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""Defend"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f5975af-7b36-4837-b6d4-5b7b08ef94ca"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
+        m_Player_WeaponChange = m_Player.FindAction("WeaponChange", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -227,6 +248,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Defend;
+    private readonly InputAction m_Player_WeaponChange;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -235,6 +257,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Defend => m_Wrapper.m_Player_Defend;
+        public InputAction @WeaponChange => m_Wrapper.m_Player_WeaponChange;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -256,6 +279,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Defend.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
                 @Defend.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
                 @Defend.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
+                @WeaponChange.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
+                @WeaponChange.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
+                @WeaponChange.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -272,6 +298,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Defend.started += instance.OnDefend;
                 @Defend.performed += instance.OnDefend;
                 @Defend.canceled += instance.OnDefend;
+                @WeaponChange.started += instance.OnWeaponChange;
+                @WeaponChange.performed += instance.OnWeaponChange;
+                @WeaponChange.canceled += instance.OnWeaponChange;
             }
         }
     }
@@ -282,5 +311,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnDefend(InputAction.CallbackContext context);
+        void OnWeaponChange(InputAction.CallbackContext context);
     }
 }
