@@ -34,6 +34,7 @@ public class WeaponController : MonoBehaviour
         WeaponHolder.WeaponChange(currentWeaponIndex);
 
         SetDamage();
+        Debug.Log(currentWeaponIndex);
         stateController.AnimController.SetWeaponIndex(currentWeaponIndex);
     }
     public void SetDamage()
