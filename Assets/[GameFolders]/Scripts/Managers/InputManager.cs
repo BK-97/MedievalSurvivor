@@ -14,6 +14,8 @@ public class InputManager : Singleton<InputManager>
     public LayerMask groundLayer;
     private bool isAttacking;
     #endregion
+    public static UnityEvent OnPassiveSkillInput = new UnityEvent();
+    public static UnityEvent OnWeaponSkillInput = new UnityEvent();
     #region MonoBehaviourMethods
     private void Awake()
     {
@@ -28,6 +30,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.Attack.performed += OnAttackPerformed;
         input.Player.Attack.canceled += OnAttackCancelled;
         input.Player.WeaponChange.performed += ctx => WeaponController.OnWeaponChange.Invoke();
+        input.Player.PassiveSkill.performed += ctx => OnPassiveSkillInput.Invoke();
+        input.Player.WeaponSkill.performed += ctx => OnWeaponSkillInput.Invoke();
 
     }
     private void OnDisable()
@@ -39,7 +43,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.Attack.performed -= OnAttackPerformed;
         input.Player.Attack.canceled -= OnAttackCancelled;
         input.Player.WeaponChange.performed -= ctx => WeaponController.OnWeaponChange.Invoke();
-
+        input.Player.PassiveSkill.performed -= ctx => OnPassiveSkillInput.Invoke();
+        input.Player.WeaponSkill.performed -= ctx => OnWeaponSkillInput.Invoke();
     }
     private void Update()
     {
@@ -54,6 +59,7 @@ public class InputManager : Singleton<InputManager>
     #region SetMethods
     private void OnMovementPerformed(InputAction.CallbackContext value)
     {
+
         moveVector = value.ReadValue<Vector2>();
     }
     private void OnMovementCancelled(InputAction.CallbackContext value)
@@ -66,12 +72,15 @@ public class InputManager : Singleton<InputManager>
     }
     private void OnAttackPerformed(InputAction.CallbackContext value)
     {
+
         isAttacking = true;
     }
     private void OnAttackCancelled(InputAction.CallbackContext value)
     {
+
         isAttacking = false;
     }
+
     #endregion
     #region GetMethods
     public Vector3 GetMouseWorldPos()

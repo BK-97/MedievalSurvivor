@@ -71,6 +71,24 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PassiveSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""5c61db81-a6f7-4060-8931-298455d7e491"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""33d1f8e5-5aad-4641-b1aa-eb6c774bbc53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +190,28 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""WeaponChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aabdeaeb-1b9b-409f-9be1-cff0de8ae9ee"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PassiveSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""da8f950f-3df7-4e59-85d6-e343e692143f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -185,6 +225,8 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
         m_Player_WeaponChange = m_Player.FindAction("WeaponChange", throwIfNotFound: true);
+        m_Player_PassiveSkill = m_Player.FindAction("PassiveSkill", throwIfNotFound: true);
+        m_Player_WeaponSkill = m_Player.FindAction("WeaponSkill", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -249,6 +291,8 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Defend;
     private readonly InputAction m_Player_WeaponChange;
+    private readonly InputAction m_Player_PassiveSkill;
+    private readonly InputAction m_Player_WeaponSkill;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -258,6 +302,8 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Defend => m_Wrapper.m_Player_Defend;
         public InputAction @WeaponChange => m_Wrapper.m_Player_WeaponChange;
+        public InputAction @PassiveSkill => m_Wrapper.m_Player_PassiveSkill;
+        public InputAction @WeaponSkill => m_Wrapper.m_Player_WeaponSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -282,6 +328,12 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @WeaponChange.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
                 @WeaponChange.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
                 @WeaponChange.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
+                @PassiveSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPassiveSkill;
+                @PassiveSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPassiveSkill;
+                @PassiveSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPassiveSkill;
+                @WeaponSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
+                @WeaponSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
+                @WeaponSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -301,6 +353,12 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @WeaponChange.started += instance.OnWeaponChange;
                 @WeaponChange.performed += instance.OnWeaponChange;
                 @WeaponChange.canceled += instance.OnWeaponChange;
+                @PassiveSkill.started += instance.OnPassiveSkill;
+                @PassiveSkill.performed += instance.OnPassiveSkill;
+                @PassiveSkill.canceled += instance.OnPassiveSkill;
+                @WeaponSkill.started += instance.OnWeaponSkill;
+                @WeaponSkill.performed += instance.OnWeaponSkill;
+                @WeaponSkill.canceled += instance.OnWeaponSkill;
             }
         }
     }
@@ -312,5 +370,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnDefend(InputAction.CallbackContext context);
         void OnWeaponChange(InputAction.CallbackContext context);
+        void OnPassiveSkill(InputAction.CallbackContext context);
+        void OnWeaponSkill(InputAction.CallbackContext context);
     }
 }

@@ -10,6 +10,16 @@ public class CharacterAnimationController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
+    private void OnEnable()
+    {
+        SkillController.OnPassiveSkillUse.AddListener(PassiveSkillAnimation);
+        SkillController.OnWeaponSkillUse.AddListener(WeaponSkillAnimation);
+    }
+    private void OnDisable()
+    {
+        SkillController.OnPassiveSkillUse.RemoveListener(PassiveSkillAnimation);
+        SkillController.OnWeaponSkillUse.RemoveListener(WeaponSkillAnimation);
+    }
     public void SetSpeed(float currentSpeed, float maxSpeed)
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
@@ -30,6 +40,14 @@ public class CharacterAnimationController : MonoBehaviour
         }
     }
 
+    private void PassiveSkillAnimation()
+    {
+        animator.SetTrigger(AnimationKeys.PASSIVE_SKILL);
+    }
+    private void WeaponSkillAnimation()
+    {
+        animator.SetTrigger(AnimationKeys.WEAPON_SKILL);
+    }
     public bool IsInComboWindow()
     {
         float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime; 

@@ -10,5 +10,7 @@ public static class AnimationKeys
     public static readonly int SPEED = Animator.StringToHash("MoveSpeed");
     public static readonly int DIE = Animator.StringToHash("Death");
     public static readonly int WEAPON_INDEX = Animator.StringToHash("WeaponIndex");
+    public static readonly int PASSIVE_SKILL = Animator.StringToHash("PassiveSkill");
+    public static readonly int WEAPON_SKILL = Animator.StringToHash("WeaponSkill");
     #endregion
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 public class WeaponController : MonoBehaviour
 {
-    public WeaponHolder WeaponHolder;
+    private WeaponHolder weaponHolder;
     private int currentWeaponIndex=-1;
     StateController stateController;
 
@@ -13,7 +13,7 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         stateController = GetComponent<StateController>();
-        WeaponHolder = GetComponentInChildren<WeaponHolder>();
+        weaponHolder = GetComponentInChildren<WeaponHolder>();
         ChangeWeapon();
     }
     private void OnEnable()
@@ -28,10 +28,10 @@ public class WeaponController : MonoBehaviour
     public void ChangeWeapon()
     {
         currentWeaponIndex++;
-        if (WeaponHolder.Weapons.Count == currentWeaponIndex)
+        if (weaponHolder.Weapons.Count == currentWeaponIndex)
             currentWeaponIndex = 0;
 
-        WeaponHolder.WeaponChange(currentWeaponIndex);
+        weaponHolder.WeaponChange(currentWeaponIndex);
 
         SetDamage();
         Debug.Log(currentWeaponIndex);
@@ -39,6 +39,6 @@ public class WeaponController : MonoBehaviour
     }
     public void SetDamage()
     {
-        stateController.AttackController.SetAttackData(WeaponHolder.GetCurrentWeaponDamage());
+        stateController.AttackController.SetAttackData(weaponHolder.GetCurrentWeaponDamage());
     }
 }
