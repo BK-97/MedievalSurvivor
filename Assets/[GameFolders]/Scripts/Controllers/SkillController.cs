@@ -10,9 +10,13 @@ public class SkillController : MonoBehaviour
     public static UnityEvent OnWeaponSkillUse = new UnityEvent();
     public GameObject passiveVFX;
 
-    private float PASSIVE_TIME=10;
-    private float PASSIVE_COOLDOWN=30;
+    private const float PASSIVE_TIME=10;
+    private const float PASSIVE_COOLDOWN =30;
+    private const float WEAPON_SKILL_COOLDOWN =30;
+    [HideInInspector]
+    public float weaponSkillRadius = 10;
     bool canUsePassive=true;
+    bool canUseWeaponSkill=true;
     private void OnEnable()
     {
         InputManager.OnPassiveSkillInput.AddListener(UsePassiveSkill);
@@ -32,15 +36,29 @@ public class SkillController : MonoBehaviour
         canUsePassive = false;
         passiveVFX.SetActive(true);
         Invoke("PassiveSkillOff", PASSIVE_TIME);
+        Invoke("PassiveSkillUsable", PASSIVE_COOLDOWN);
         OnPassiveSkillUse.Invoke();
     }
     private void UseWeaponSkill()
     {
+        if (!canUseWeaponSkill)
+            return;
+
+        canUseWeaponSkill = false;
+        Invoke("WeaponSkillUsable", WEAPON_SKILL_COOLDOWN);
         OnWeaponSkillUse.Invoke();
     }
     private void PassiveSkillOff()
     {
         passiveVFX.SetActive(false);
         OnPassiveSkillEnd.Invoke();
+    }
+    private void PassiveSkillUsable()
+    {
+        canUsePassive = true;
+    }
+    private void WeaponSkillUsable()
+    {
+        canUseWeaponSkill = true;
     }
 }

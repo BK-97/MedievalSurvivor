@@ -6,9 +6,13 @@ public class CharacterAnimationController : MonoBehaviour
 {
     private Animator animator;
     public bool comboContinue;
+    private SkillController skillController;
+    private CharacterAttackController attackController;
     private void Start()
     {
         animator = GetComponent<Animator>();
+        skillController = GetComponentInParent<SkillController>();
+        attackController = GetComponentInParent<CharacterAttackController>();
     }
     private void OnEnable()
     {
@@ -47,6 +51,16 @@ public class CharacterAnimationController : MonoBehaviour
     private void WeaponSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.WEAPON_SKILL);
+    }
+    public void WeaponSkillEvent()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius,LayerMask.GetMask("Enemy"));
+
+        foreach (Collider collider in hitColliders)
+        {
+            IDamagable damagable = collider.GetComponent<IDamagable>();
+            attackController.Attack(damagable);
+        }
     }
     public bool IsInComboWindow()
     {

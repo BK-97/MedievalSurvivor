@@ -18,4 +18,8 @@ public class CharacterAttackController : MonoBehaviour
     {
         isAttacking = false;
     }
+    public void Attack(IDamagable enemyTarget)
+    {
+        enemyTarget.TakeDamage(currentDamage);
+    }
 }
