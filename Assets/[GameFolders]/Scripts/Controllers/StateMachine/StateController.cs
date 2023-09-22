@@ -51,9 +51,18 @@ public class StateController : MonoBehaviour
         {
             if(currentState!=attackState)
                 currentState.ExitState(this, attackState);
+            else
+            {
+                if (animController.IsInComboWindow())
+                    animController.comboContinue=true;
+            }
         }
         else
         {
+            if (animController.comboContinue)
+                return;
+            //if (!animController.IsPlayingAnimation("Idle"))
+            //    return;
             if (currentState == attackState)
                 currentState.ExitState(this, idleState);
 
@@ -85,21 +94,6 @@ public class StateController : MonoBehaviour
         currentState.EnterState(this);
     }
 
-    float noOfClicks = 0;
-    float maxComboDelay = 1;
-    float lastClickedTime = 0;
-    float nextAttackTime = 0;
-    float coolDownTime = 2f;
-
-    void OnClick()
-    {
-        lastClickedTime = Time.time;
-        noOfClicks++;
-        if(noOfClicks==1)
-        {
-
-        }
-    }
     #region CheckMethods
     private bool CheckMovementInput()
     {
