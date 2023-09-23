@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class EnemyAttackState : EnemyBaseState
 {
     public override void EnterState(EnemyStateController stateController)
@@ -8,8 +10,8 @@ public class EnemyAttackState : EnemyBaseState
     public override void ExitState(EnemyStateController stateController, EnemyBaseState nextState)
     {
         stateController.AttackController.Attack(false);
+        stateController.AnimController.CancelAttackAnimation();
         stateController.SwitchState(nextState);
-
     }
 
     public override void UpdateState(EnemyStateController stateController)

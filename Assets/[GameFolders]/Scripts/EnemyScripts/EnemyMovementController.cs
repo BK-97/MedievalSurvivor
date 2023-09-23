@@ -15,6 +15,7 @@ public class EnemyMovementController : MonoBehaviour
     {
         maxSpeed = speed;
         NavMeshAgent.speed = maxSpeed;
+        NavMeshAgent.stoppingDistance = 1;
         canMove = true;
 
     }
@@ -32,11 +33,13 @@ public class EnemyMovementController : MonoBehaviour
         }
         else
             targetPos = targetTransform.position;
+        Debug.Log(1);
         NavMeshAgent.SetDestination(targetPos);
 
     }
     public void MoveEnd()
     {
+        Debug.Log(2);
         NavMeshAgent.SetDestination(transform.position);
     }
     public void SetTargetTransform(Transform target)

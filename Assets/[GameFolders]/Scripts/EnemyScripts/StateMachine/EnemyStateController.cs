@@ -52,7 +52,6 @@ public class EnemyStateController : MonoBehaviour
             return;
         currentState.UpdateState(this);
         AnimController.SetSpeed(MovementController.GetCurrentSpeed(),characterData.MoveSpeed);
-
     }
     public void SwitchState(EnemyBaseState changeState)
     {

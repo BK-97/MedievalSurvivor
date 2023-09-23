@@ -167,11 +167,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a39170a17f3eb4a8358fd1401ce8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaveCounts: 0500000005000000
+  WaveCounts: 0100000001000000
   spawnDelay: 1
-  waveDelay: 30
   spawnPosDistance: 5
   player: {fileID: 1041740489404887602}
+  spawnerIndex: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0

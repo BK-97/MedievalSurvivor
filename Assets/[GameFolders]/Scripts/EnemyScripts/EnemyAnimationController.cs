@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyAnimationController : MonoBehaviour
 {
-    private Animator animator;
+    [HideInInspector]
+    public Animator animator;
     private EnemyAttackController attackController;
     private void Start()
     {
@@ -20,10 +21,18 @@ public class EnemyAnimationController : MonoBehaviour
     public void AttackAnimation(bool status)
     {
         animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
-
+    }
+    public void CancelAttackAnimation()
+    {
+        animator.SetTrigger(AnimationKeys.CANCEL_ATTACK);
     }
     public void AttackEvent()
     {
         attackController.GiveDamage();
+    }
+    public bool CanSwitchState()
+    {
+        bool isAttackPlaying = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
+        return isAttackPlaying;
     }
 }
