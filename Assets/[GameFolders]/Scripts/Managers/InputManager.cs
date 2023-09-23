@@ -23,6 +23,18 @@ public class InputManager : Singleton<InputManager>
     }
     private void OnEnable()
     {
+        LevelManager.Instance.OnLevelStart.AddListener(AddInputListeners);
+        GameManager.Instance.OnStageFail.AddListener(RemoveInputListeners);
+        GameManager.Instance.OnStageSuccess.AddListener(RemoveInputListeners);
+    }
+    private void OnDisable()
+    {
+        LevelManager.Instance.OnLevelStart.RemoveListener(AddInputListeners);
+        GameManager.Instance.OnStageFail.RemoveListener(RemoveInputListeners);
+        GameManager.Instance.OnStageSuccess.RemoveListener(RemoveInputListeners);
+    }
+    private void AddInputListeners()
+    {
         input.Enable();
         input.Player.Movement.performed += OnMovementPerformed;
         input.Player.Movement.canceled += OnMovementCancelled;
@@ -32,9 +44,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.WeaponChange.performed += ctx => WeaponController.OnWeaponChange.Invoke();
         input.Player.PassiveSkill.performed += ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed += ctx => OnWeaponSkillInput.Invoke();
-
     }
-    private void OnDisable()
+    private void RemoveInputListeners()
     {
         input.Disable();
         input.Player.Movement.performed -= OnMovementPerformed;
@@ -46,6 +57,7 @@ public class InputManager : Singleton<InputManager>
         input.Player.PassiveSkill.performed -= ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed -= ctx => OnWeaponSkillInput.Invoke();
     }
+
     private void Update()
     {
         if(GameManager.Instance.IsGameStarted&&!LevelManager.Instance.IsLevelStarted)
@@ -59,7 +71,6 @@ public class InputManager : Singleton<InputManager>
     #region SetMethods
     private void OnMovementPerformed(InputAction.CallbackContext value)
     {
-
         moveVector = value.ReadValue<Vector2>();
     }
     private void OnMovementCancelled(InputAction.CallbackContext value)

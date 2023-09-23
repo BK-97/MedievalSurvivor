@@ -14,6 +14,8 @@ public class CharacterAttackController : MonoBehaviour
 
     public void Attack(bool status)
     {
+        if (LevelManager.Instance.IsLevelStarted)
+            return;
         AnimController.AttackAnimation(status);
     }
     public void GiveDamage(IDamagable enemyTarget)
