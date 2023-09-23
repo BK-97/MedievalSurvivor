@@ -30,6 +30,8 @@ public class SkillController : MonoBehaviour
     }
     private void UsePassiveSkill()
     {
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         if (!canUsePassive)
             return;
 
@@ -41,6 +43,8 @@ public class SkillController : MonoBehaviour
     }
     private void UseWeaponSkill()
     {
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         if (!canUseWeaponSkill)
             return;
 

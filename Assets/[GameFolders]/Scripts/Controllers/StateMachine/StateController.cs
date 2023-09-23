@@ -30,7 +30,7 @@ public class StateController : MonoBehaviour
 
     private void Start()
     {
-        HealthController.SetHealth(characterData.Health);
+        CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
         AttackController.SetAttackData(characterData.BaseDamage);
         MovementController.SetSpeed(characterData.MoveSpeed);
         idleState.EnterState(this);
