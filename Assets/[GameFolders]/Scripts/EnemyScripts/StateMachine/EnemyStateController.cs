@@ -30,7 +30,7 @@ public class EnemyStateController : MonoBehaviour
 
     private void Start()
     {
-        CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
+        HealthController.SetHealth(characterData.Health);
         AttackController.SetAttackData(characterData.BaseDamage);
         MovementController.SetSpeed(characterData.MoveSpeed);
 
@@ -49,6 +49,8 @@ public class EnemyStateController : MonoBehaviour
         if (currentState == null)
             return;
         if (GameManager.Instance.IsStageCompleted)
+            return;
+        if (HealthController.isDead)
             return;
         currentState.UpdateState(this);
         AnimController.SetSpeed(MovementController.GetCurrentSpeed(),characterData.MoveSpeed);
