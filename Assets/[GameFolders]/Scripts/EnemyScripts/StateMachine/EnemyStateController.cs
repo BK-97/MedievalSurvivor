@@ -26,17 +26,15 @@ public class EnemyStateController : MonoBehaviour
     private EnemyAnimationController animController;
     public EnemyAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<EnemyAnimationController>() : animController; } }
     #endregion
-    public Transform targetTransform;
+    private Transform targetTransform;
 
-    private void Start()
+    public void Initialize()
     {
+        GetComponent<Collider>().enabled = true;
+        GetComponent<Rigidbody>().useGravity = true;
         HealthController.SetHealth(characterData.Health);
         AttackController.SetAttackData(characterData.BaseDamage);
         MovementController.SetSpeed(characterData.MoveSpeed);
-
-        SetTarget(targetTransform);
-
-
 
         idleState.EnterState(this);
         currentState = idleState;

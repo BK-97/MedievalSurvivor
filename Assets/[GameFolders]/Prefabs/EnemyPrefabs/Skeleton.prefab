@@ -1570,7 +1570,7 @@ GameObject:
   - component: {fileID: 146423172}
   - component: {fileID: 1295939290038714687}
   m_Layer: 7
-  m_Name: PT_Skeleton_Male_Modular
+  m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1651,16 +1651,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e800e17e3c92e814f86eb0a1662137c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realOnes:
-  - {fileID: 1171189437279808609}
-  - {fileID: 5939621391927272918}
-  - {fileID: 6735185477337330170}
-  fakeOnes:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   isDead: 0
 --- !u!114 &5981525448440236463
 MonoBehaviour:
@@ -1675,7 +1665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterData: {fileID: 11400000, guid: 0f38f0121074aa24293dc0892b2be6e2, type: 2}
-  targetTransform: {fileID: 0}
 --- !u!114 &314422288108064200
 MonoBehaviour:
   m_ObjectHideFlags: 0

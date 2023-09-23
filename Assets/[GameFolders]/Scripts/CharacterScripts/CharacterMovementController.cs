@@ -34,9 +34,9 @@ public class CharacterMovementController : MonoBehaviour
         float targetSpeed = 0f;
         
         Sequence sequence = DOTween.Sequence();
-        AnimController.SetSpeed(currentSpeed, maxSpeed);
-
-        sequence.Append(DOTween.To(() => currentSpeed, x => currentSpeed = x, targetSpeed, duration)).SetEase(Ease.Linear);
+        
+        sequence.Append(DOTween.To(() => currentSpeed, x => currentSpeed = x, targetSpeed, duration)).SetEase(Ease.Linear)
+            .OnUpdate(()=> AnimController.SetSpeed(currentSpeed, maxSpeed)).OnComplete(()=> AnimController.SetSpeed(0, maxSpeed));
     }
     public void RotateTowards()
     {

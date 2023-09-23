@@ -10,14 +10,12 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
     public void Die()
     {
         isDead = true;
-        Destroy(gameObject);
+        MultiGameObjectPool.Instance.ReturnObject(gameObject);
     }
 
     public void SetHealth(float health)
     {
         currentHealth = health;
-
-        Invoke("Die", 1);
     }
 
     public void TakeDamage(float damage)
@@ -27,5 +25,4 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
         else
             currentHealth -= damage;
     }
-
 }
