@@ -1,10 +1,6 @@
-﻿using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-
 public class InputManager : Singleton<InputManager>
 {
     #region Params
@@ -14,9 +10,11 @@ public class InputManager : Singleton<InputManager>
     public LayerMask groundLayer;
     private bool isAttacking;
     #endregion
+    #region Events
     public static UnityEvent OnPassiveSkillInput = new UnityEvent();
     public static UnityEvent OnWeaponSkillInput = new UnityEvent();
     public static UnityEvent OnInteractInput = new UnityEvent();
+    #endregion
     #region MonoBehaviourMethods
     private void Awake()
     {
@@ -64,7 +62,7 @@ public class InputManager : Singleton<InputManager>
     {
         if(GameManager.Instance.IsGameStarted&&!LevelManager.Instance.IsLevelStarted)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.anyKeyDown)
                 LevelManager.Instance.StartLevel();
         }
     }
@@ -110,5 +108,4 @@ public class InputManager : Singleton<InputManager>
         return isAttacking;
     }
     #endregion
-
 }

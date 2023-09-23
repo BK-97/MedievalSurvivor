@@ -10,45 +10,47 @@ public class Spawner : MonoBehaviour
     public Transform player;
     public int spawnerIndex;
 
-    public static IntEvent OnSpawnerStart = new IntEvent();
+    public static UnityEvent OnSpawnerStart = new UnityEvent();
     public static UnityEvent OnWaveEnd = new UnityEvent();
     private int currentWaveIndex;
-    private List<GameObject> spawnedCharacters=new List<GameObject>();
+    private List<GameObject> spawnedCharacters = new List<GameObject>();
     private void OnEnable()
     {
-        LevelManager.Instance.OnLevelStart.AddListener(() => Spawn(0));
-        OnSpawnerStart.AddListener((int spawnIndex) => Spawn(spawnIndex));
+        LevelManager.Instance.OnLevelStart.AddListener(Spawn);
+        OnSpawnerStart.AddListener(Spawn);
     }
     private void OnDisable()
     {
-        LevelManager.Instance.OnLevelStart.RemoveListener(()=>Spawn(0));
-        OnSpawnerStart.RemoveListener((int spawnIndex) => Spawn(spawnIndex));
+        LevelManager.Instance.OnLevelStart.RemoveListener(Spawn);
+        OnSpawnerStart.RemoveListener(Spawn);
     }
     private void Update()
     {
         if (!LevelManager.Instance.IsLevelStarted)
             return;
-        if (spawnedCharacters.Count ==0)
+        if (spawnedCharacters.Count == 0)
             return;
         if (CheckAllEnemiesDie())
             WaveAllDie();
     }
-    void Spawn(int index)
+    void Spawn()
     {
-        if(spawnerIndex==index)
-            StartCoroutine(SpawnWithDelayCO(WaveCounts[currentWaveIndex]));
+        if (currentWaveIndex == WaveCounts.Count)
+            currentWaveIndex = 0;
+        StartCoroutine(SpawnWithDelayCO(WaveCounts[currentWaveIndex]));
     }
     IEnumerator SpawnWithDelayCO(int spawnCount)
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            var go=MultiGameObjectPool.Instance.GetObject("Skeleton");
-            go.transform.position=RandomPosCalculator();
+            var go = MultiGameObjectPool.Instance.GetObject("Skeleton");
+            go.transform.position = RandomPosCalculator();
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
             yield return new WaitForSeconds(spawnDelay);
         }
+        currentWaveIndex++;
     }
     private void WaveAllDie()
     {
@@ -73,7 +75,7 @@ public class Spawner : MonoBehaviour
         float horizontalFOV = Camera.main.fieldOfView;
 
         float randomAngle = Random.Range(0f, 360f);
-        float randomDistance = Random.Range(10f, 20f); 
+        float randomDistance = Random.Range(10f, 20f);
 
         float x = cameraPosition.x + Mathf.Cos(randomAngle) * randomDistance;
         float z = cameraPosition.z + Mathf.Sin(randomAngle) * randomDistance;
