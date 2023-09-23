@@ -16,6 +16,7 @@ public class InputManager : Singleton<InputManager>
     #endregion
     public static UnityEvent OnPassiveSkillInput = new UnityEvent();
     public static UnityEvent OnWeaponSkillInput = new UnityEvent();
+    public static UnityEvent OnInteractInput = new UnityEvent();
     #region MonoBehaviourMethods
     private void Awake()
     {
@@ -44,6 +45,7 @@ public class InputManager : Singleton<InputManager>
         input.Player.WeaponChange.performed += ctx => WeaponController.OnWeaponChange.Invoke();
         input.Player.PassiveSkill.performed += ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed += ctx => OnWeaponSkillInput.Invoke();
+        input.Player.Interact.performed += ctx => OnInteractInput.Invoke();
     }
     private void RemoveInputListeners()
     {
@@ -56,8 +58,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.WeaponChange.performed -= ctx => WeaponController.OnWeaponChange.Invoke();
         input.Player.PassiveSkill.performed -= ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed -= ctx => OnWeaponSkillInput.Invoke();
+        input.Player.Interact.performed -= ctx => OnInteractInput.Invoke();
     }
-
     private void Update()
     {
         if(GameManager.Instance.IsGameStarted&&!LevelManager.Instance.IsLevelStarted)
@@ -65,7 +67,6 @@ public class InputManager : Singleton<InputManager>
             if (Input.GetMouseButtonDown(0))
                 LevelManager.Instance.StartLevel();
         }
-
     }
     #endregion
     #region SetMethods

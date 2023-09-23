@@ -89,6 +89,15 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""0aee14fa-20b2-41bb-9218-56e0ef0d2a5b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -212,6 +221,17 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""action"": ""WeaponSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""77a05330-cb00-4ffd-bfe6-4d44ace95fe4"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -227,6 +247,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Player_WeaponChange = m_Player.FindAction("WeaponChange", throwIfNotFound: true);
         m_Player_PassiveSkill = m_Player.FindAction("PassiveSkill", throwIfNotFound: true);
         m_Player_WeaponSkill = m_Player.FindAction("WeaponSkill", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -293,6 +314,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WeaponChange;
     private readonly InputAction m_Player_PassiveSkill;
     private readonly InputAction m_Player_WeaponSkill;
+    private readonly InputAction m_Player_Interact;
     public struct PlayerActions
     {
         private @GameInputs m_Wrapper;
@@ -304,6 +326,7 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @WeaponChange => m_Wrapper.m_Player_WeaponChange;
         public InputAction @PassiveSkill => m_Wrapper.m_Player_PassiveSkill;
         public InputAction @WeaponSkill => m_Wrapper.m_Player_WeaponSkill;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -334,6 +357,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @WeaponSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
                 @WeaponSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
                 @WeaponSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponSkill;
+                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -359,6 +385,9 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @WeaponSkill.started += instance.OnWeaponSkill;
                 @WeaponSkill.performed += instance.OnWeaponSkill;
                 @WeaponSkill.canceled += instance.OnWeaponSkill;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -372,5 +401,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnWeaponChange(InputAction.CallbackContext context);
         void OnPassiveSkill(InputAction.CallbackContext context);
         void OnWeaponSkill(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

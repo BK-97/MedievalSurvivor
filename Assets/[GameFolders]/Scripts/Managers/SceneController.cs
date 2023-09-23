@@ -17,8 +17,8 @@ public class SceneController : Singleton<SceneController>
     public UnityEvent OnSceneUnLoaded = new UnityEvent();
     [HideInInspector]
     public SceneEvent OnSceneInfo = new SceneEvent();
-
-
+    [HideInInspector]
+    public UnityEvent OnSceneTransitionStart = new UnityEvent();
     public bool loadingInProgress { get; private set; }
 
     public void LoadScene(string sceneName)

@@ -38,11 +38,26 @@ public class LevelManager : Singleton<LevelManager>
     private void OnEnable()
     {
         GameManager.Instance.OnStageFail.AddListener(ReloadLevel);
+        Portal.OnUsePortal.AddListener(ChangeMap);
     }
 
     private void OnDisable()
     {
         GameManager.Instance.OnStageFail.RemoveListener(ReloadLevel);
+        Portal.OnUsePortal.RemoveListener(ChangeMap);
+
+    }
+    public void ChangeMap(string nextLevelName)
+    {
+        FinishLevel();
+        SceneController.Instance.OnSceneTransitionStart.Invoke();
+        SceneController.Instance.UnloadScene(CurrentLevel.LoadLevelID);
+        StartCoroutine(WaitForChangeMap(nextLevelName));
+    }
+    IEnumerator WaitForChangeMap(string nextLevelName)
+    {
+        yield return new WaitForSeconds(4);
+        LoadThisLevel(GetLevelIndex(nextLevelName));
     }
     public void ReloadLevel()
     {
@@ -106,5 +121,14 @@ public class LevelManager : Singleton<LevelManager>
         IsLevelStarted = false;
         OnLevelFinish.Invoke();
     }
+    public int GetLevelIndex(string levelName)
+    {
+        for (int i = 0; i < LevelData.Levels.Count; i++)
+        {
+            if (LevelData.Levels[i].LoadLevelID == levelName)
+                return i;
+        }
+        return 0;
 
+    }
 }

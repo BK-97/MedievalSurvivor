@@ -13,5 +13,6 @@ public class EventManager : MonoBehaviour
 }
 public class BoolEvent : UnityEvent<bool> { }
 public class IntEvent : UnityEvent<int> { }
+public class StringEvent : UnityEvent<string> { }
 public class FloatEvent : UnityEvent<float> { }
 public class GameObjectEvent : UnityEvent<GameObject> { }

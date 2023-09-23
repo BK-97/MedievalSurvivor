@@ -24,6 +24,15 @@ public class Spawner : MonoBehaviour
         LevelManager.Instance.OnLevelStart.RemoveListener(()=>Spawn(0));
         OnSpawnerStart.RemoveListener((int spawnIndex) => Spawn(spawnIndex));
     }
+    private void Update()
+    {
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
+        if (spawnedCharacters.Count ==0)
+            return;
+        if (CheckAllEnemiesDie())
+            WaveAllDie();
+    }
     void Spawn(int index)
     {
         if(spawnerIndex==index)
@@ -37,10 +46,26 @@ public class Spawner : MonoBehaviour
             go.transform.position=RandomPosCalculator();
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
+            spawnedCharacters.Add(go);
             yield return new WaitForSeconds(spawnDelay);
         }
     }
-
+    private void WaveAllDie()
+    {
+        spawnedCharacters.Clear();
+        OnWaveEnd.Invoke();
+    }
+    private bool CheckAllEnemiesDie()
+    {
+        for (int i = 0; i < spawnedCharacters.Count; i++)
+        {
+            if (spawnedCharacters[i].activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     private Vector3 RandomPosCalculator()
     {
         Vector3 cameraPosition = Camera.main.transform.position;
