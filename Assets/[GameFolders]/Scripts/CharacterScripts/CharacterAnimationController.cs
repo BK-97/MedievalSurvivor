@@ -59,7 +59,7 @@ public class CharacterAnimationController : MonoBehaviour
         foreach (Collider collider in hitColliders)
         {
             IDamagable damagable = collider.GetComponent<IDamagable>();
-            attackController.Attack(damagable);
+            attackController.GiveDamage(damagable);
         }
     }
     public bool IsInComboWindow()
@@ -67,14 +67,5 @@ public class CharacterAnimationController : MonoBehaviour
         float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime; 
         return normalizedTime >= 0.5f && normalizedTime <= 0.9f;
     }
-    public bool IsPlayingAnimation(string animationName)
-    {
-        if (animator == null)
-        {
-            return false;
-        }
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        return animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == animationName && stateInfo.normalizedTime < 1f;
-    }
 }

@@ -8,10 +8,10 @@ public class CharacterMovementController : MonoBehaviour
     private Rigidbody rb = null;
     private float maxSpeed;
     private float currentSpeed;
-    private float acceleration=4;
     const float ROTATE_SPEED=720;
     const float ACCELERATION = 3;
-
+    private CharacterAnimationController animController;
+    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,6 +25,7 @@ public class CharacterMovementController : MonoBehaviour
         Vector3 moveDirection = InputManager.Instance.GetDirection();
         currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * ACCELERATION);
         rb.velocity = moveDirection * currentSpeed;
+        AnimController.SetSpeed(currentSpeed, maxSpeed);
     }
     public void MoveEnd()
     {
@@ -33,7 +34,8 @@ public class CharacterMovementController : MonoBehaviour
         float targetSpeed = 0f;
         
         Sequence sequence = DOTween.Sequence();
-        
+        AnimController.SetSpeed(currentSpeed, maxSpeed);
+
         sequence.Append(DOTween.To(() => currentSpeed, x => currentSpeed = x, targetSpeed, duration)).SetEase(Ease.Linear);
     }
     public void RotateTowards()

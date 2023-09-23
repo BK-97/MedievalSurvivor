@@ -14,10 +14,6 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
         currentHealth = health;
         canTakeDamage = true;
     }
-    public int GetCurrentHealth()
-    {
-        return 0;
-    }
 
     public void TakeDamage(float damage)
     {
@@ -49,10 +45,4 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
     {
         GameManager.Instance.CompeleteStage(false);
     }
-
-    public void Regenerate(float regenAmount)
-    {
-
-    }
-
 }

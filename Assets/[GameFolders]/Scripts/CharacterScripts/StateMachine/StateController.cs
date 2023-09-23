@@ -25,9 +25,7 @@ public class StateController : MonoBehaviour
     public CharacterHealthController HealthController { get { return (healthController == null) ? healthController = GetComponent<CharacterHealthController>() : healthController; } }
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
-
     #endregion
-
     private void Start()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
@@ -45,7 +43,6 @@ public class StateController : MonoBehaviour
 
         currentState.UpdateState(this);
 
-        AnimController.SetSpeed(MovementController.GetCurrentSpeed(), characterData.MoveSpeed);
 
         if (CheckAttackInput())
         {
@@ -109,5 +106,6 @@ public class StateController : MonoBehaviour
         bool isAttacking = InputManager.Instance.IsAttacking();
         return isAttacking;
     }
+
     #endregion
 }
