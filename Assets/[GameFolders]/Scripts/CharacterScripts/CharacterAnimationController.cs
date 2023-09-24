@@ -74,7 +74,7 @@ public class CharacterAnimationController : MonoBehaviour
         foreach (Collider collider in hitColliders)
         {
             IDamagable damagable = collider.GetComponent<IDamagable>();
-            attackController.GiveDamage(damagable);
+            attackController.GiveDamage(damagable,40);
         }
     }
     public bool IsInComboWindow()

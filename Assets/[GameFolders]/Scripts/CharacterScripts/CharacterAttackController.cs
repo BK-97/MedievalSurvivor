@@ -12,7 +12,6 @@ public class CharacterAttackController : MonoBehaviour
     public void SetAttackData(float damage)
     {
         currentDamage = damage;
-        Debug.Log(currentDamage);
     }
     public void Attack(bool status)
     {
@@ -26,13 +25,14 @@ public class CharacterAttackController : MonoBehaviour
         AnimController.AttackAnimation(status);
     }
 
-    public void GiveDamage(IDamagable enemyTarget)
+    public void GiveDamage(IDamagable enemyTarget,float damage)
     {
-        enemyTarget.TakeDamage(currentDamage);
+        enemyTarget.TakeDamage(damage);
     }
     public void AttackMoment()
     {
+        WeaponController.weaponHolder.currentWeapon.TrailPlay();
         if (WeaponController.CheckForContact())
-            GiveDamage(WeaponController.GetTriggeredDamagable());
+            GiveDamage(WeaponController.GetTriggeredDamagable(),currentDamage);
     }
 }

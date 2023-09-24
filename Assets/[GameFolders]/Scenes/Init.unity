@@ -169,6 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabs:
   - {fileID: 4427376173531245595, guid: b91f2cacb0bef7f4bac8f61b0f00b4c6, type: 3}
+  - {fileID: 100006, guid: 60bc526f4be1e044ab9e46340b82ffb3, type: 3}
   initialSize: 10
   maxSize: 100
 --- !u!1 &1647220057
@@ -259,6 +260,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnSceneUnLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  OnSceneTransitionStart:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1647220062

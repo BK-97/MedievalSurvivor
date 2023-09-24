@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public WeaponData weaponData;
     public WeaponTrigger weaponTrigger;
+    public ParticleSystem swordTrail;
     public void Initalize()
     {
         gameObject.SetActive(true);
@@ -13,6 +14,10 @@ public class Weapon : MonoBehaviour
     public void Deactive()
     {
         gameObject.SetActive(false);
+    }
+    public void TrailPlay()
+    {
+        swordTrail.Play();
     }
 
 }

@@ -39,6 +39,8 @@ public class SkillController : MonoBehaviour
         passiveVFX.SetActive(true);
         Invoke("PassiveSkillOff", PASSIVE_TIME);
         Invoke("PassiveSkillUsable", PASSIVE_COOLDOWN);
+        var go=MultiGameObjectPool.Instance.GetObject("FSkillParticle");
+        go.transform.position = transform.position;
         OnPassiveSkillUse.Invoke();
     }
     private void UseWeaponSkill()

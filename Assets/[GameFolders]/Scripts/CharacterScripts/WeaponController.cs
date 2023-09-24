@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.Events;
 public class WeaponController : MonoBehaviour
 {
-    private WeaponHolder weaponHolder;
+    [HideInInspector]
+    public WeaponHolder weaponHolder;
     private int currentWeaponIndex=-1;
     private CharacterStateController stateController;
 
