@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33317444026313614}
   - component: {fileID: 23574200011612986}
   - component: {fileID: 1225753041313270788}
+  - component: {fileID: 7542397850356268344}
   m_Layer: 8
   m_Name: Axe_OS
   m_TagString: Untagged
@@ -101,6 +102,22 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: ae5e3483e7141a449b946a53e09656c8, type: 2}
   weaponTrigger: {fileID: 650641115512560820}
   swordTrail: {fileID: 625468311563544599}
+--- !u!54 &7542397850356268344
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776472905282870}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &3307379006702402754
 GameObject:
   m_ObjectHideFlags: 0

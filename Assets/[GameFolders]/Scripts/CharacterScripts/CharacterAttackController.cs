@@ -24,7 +24,8 @@ public class CharacterAttackController : MonoBehaviour
 
         AnimController.AttackAnimation(status);
     }
-
+    public Transform muzzle;
+    public LayerMask enemyLayer;
     public void GiveDamage(IDamagable enemyTarget,float damage)
     {
         enemyTarget.TakeDamage(damage);
@@ -32,7 +33,50 @@ public class CharacterAttackController : MonoBehaviour
     public void AttackMoment()
     {
         WeaponController.weaponHolder.currentWeapon.TrailPlay();
-        if (WeaponController.CheckForContact())
-            GiveDamage(WeaponController.GetTriggeredDamagable(),currentDamage);
+        if (RaycastCheck() != null)
+        {
+            Debug.Log("girdi");
+            GiveDamage(RaycastCheck(), currentDamage);
+
+        }
+        //if (WeaponController.CheckForContact())
+        //    GiveDamage(WeaponController.GetTriggeredDamagable(),currentDamage);
+    }
+    private IDamagable RaycastCheck()
+    {
+        Vector3 coneDirection = muzzle.transform.forward;
+        Quaternion startRotation = Quaternion.AngleAxis(-15f, Vector3.up);
+        Quaternion stepRotation = Quaternion.AngleAxis(30f / (12 - 1), Vector3.up);
+        List<GameObject> hitObjects = new List<GameObject>();
+        for (int i = 0; i < 12; i++)
+        {
+            Vector3 rayStartPoint = muzzle.transform.position;
+
+            Vector3 rayDirection = coneDirection;
+
+            rayDirection = startRotation * rayDirection;
+
+            RaycastHit hit;
+            if (Physics.Raycast(rayStartPoint, rayDirection, out hit, 2, enemyLayer))
+            {
+                if(hit.collider.gameObject.GetComponent<IDamagable>()!=null)
+                    hitObjects.Add(hit.collider.gameObject);
+            }
+
+            startRotation = stepRotation * startRotation;
+        }
+
+        IDamagable closestObject = null;
+        float closestDistance = float.MaxValue;
+        foreach (GameObject hit in hitObjects)
+        {
+            float distanceToMuzzle = Vector3.Distance(muzzle.position, hit.transform.position);
+            if (distanceToMuzzle < closestDistance)
+            {
+                closestDistance = distanceToMuzzle;
+                closestObject = hit.GetComponent<IDamagable>();
+            }
+        }
+        return closestObject;
     }
 }

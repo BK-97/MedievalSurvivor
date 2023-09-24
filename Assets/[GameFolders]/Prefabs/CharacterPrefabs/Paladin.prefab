@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b651a9f9c9993df4a8b86b553c37d318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 7278830581528788845}
   comboContinue: 0
 --- !u!95 &7278830581528788845
 Animator:

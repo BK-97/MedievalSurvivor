@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class CharacterAnimationController : MonoBehaviour
 {
-    private Animator animator;
+    public Animator animator;
     public bool comboContinue;
     private int comboIndex;
     private SkillController skillController;
@@ -13,7 +13,6 @@ public class CharacterAnimationController : MonoBehaviour
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
     private void Start()
     {
-        animator = GetComponent<Animator>();
         skillController = GetComponentInParent<SkillController>();
         attackController = GetComponentInParent<CharacterAttackController>();
     }
@@ -37,7 +36,7 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void SetWeaponIndex(int weaponIndex)
     {
-        animator.SetInteger(AnimationKeys.WEAPON_INDEX, weaponIndex);
+        animator.SetInteger("WeaponIndex", weaponIndex);
     }
     public void AttackAnimation(bool status)
     {

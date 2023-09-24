@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 public class WeaponController : MonoBehaviour
 {
-    [HideInInspector]
     public WeaponHolder weaponHolder;
     private int currentWeaponIndex=-1;
     private CharacterStateController stateController;
@@ -13,7 +12,6 @@ public class WeaponController : MonoBehaviour
 
     private void Start()
     {
-        weaponHolder = GetComponentInChildren<WeaponHolder>();
         stateController = GetComponent<CharacterStateController>();
         ChangeWeapon();
     }
@@ -24,7 +22,6 @@ public class WeaponController : MonoBehaviour
     private void OnDisable()
     {
         OnWeaponChange.RemoveListener(ChangeWeapon);
-
     }
     public void ChangeWeapon()
     {

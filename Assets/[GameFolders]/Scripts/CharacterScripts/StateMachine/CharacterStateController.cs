@@ -95,7 +95,6 @@ public class CharacterStateController : MonoBehaviour
         {
             if (AnimController.GetAnimStatus("Movement")&&CheckMovementInput())
             {
-                Debug.Log("girme amk girme");
                 currentState.ExitState(this, idleState);
                 return;
             }

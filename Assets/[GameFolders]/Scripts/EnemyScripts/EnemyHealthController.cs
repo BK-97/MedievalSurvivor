@@ -15,7 +15,7 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
             return;
 
         isDead = true;
-        healthBar.value = currentHealth;
+        healthBar.value = 0;
         healthBar.enabled = false;
         var go = MultiGameObjectPool.Instance.GetObject("SkeletonDeath");
         go.transform.position = transform.position;
