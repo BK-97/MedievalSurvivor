@@ -29,7 +29,6 @@ public class CharacterStateController : MonoBehaviour
     private void Start()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
-        AttackController.SetAttackData(characterData.BaseDamage);
         MovementController.SetSpeed(characterData.MoveSpeed);
         idleState.EnterState(this);
         currentState = idleState;
@@ -41,7 +40,6 @@ public class CharacterStateController : MonoBehaviour
         if (currentState == null)
             return;
         currentState.UpdateState(this);
-        Debug.Log(currentState);
 
         if (currentState == idleState)
         {

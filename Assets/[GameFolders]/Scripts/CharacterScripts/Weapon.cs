@@ -5,7 +5,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public WeaponData weaponData;
-
+    public WeaponTrigger weaponTrigger;
     public void Initalize()
     {
         gameObject.SetActive(true);

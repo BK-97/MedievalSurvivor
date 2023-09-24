@@ -38,8 +38,16 @@ public class WeaponController : MonoBehaviour
         SetDamage();
 
     }
+    public bool CheckForContact()
+    {
+        return weaponHolder.currentWeapon.weaponTrigger.IsContacted();
+    }
     public void SetDamage()
     {
         stateController.AttackController.SetAttackData(weaponHolder.GetCurrentWeaponDamage());
+    }
+    public IDamagable GetTriggeredDamagable()
+    {
+        return weaponHolder.currentWeapon.weaponTrigger.GetContacted();
     }
 }

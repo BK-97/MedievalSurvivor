@@ -7,9 +7,12 @@ public class CharacterAttackController : MonoBehaviour
     float currentDamage;
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
+    private WeaponController weaponController;
+    public WeaponController WeaponController { get { return (weaponController == null) ? weaponController = GetComponent<WeaponController>() : weaponController; } }
     public void SetAttackData(float damage)
     {
         currentDamage = damage;
+        Debug.Log(currentDamage);
     }
     public void Attack(bool status)
     {
@@ -26,5 +29,10 @@ public class CharacterAttackController : MonoBehaviour
     public void GiveDamage(IDamagable enemyTarget)
     {
         enemyTarget.TakeDamage(currentDamage);
+    }
+    public void AttackMoment()
+    {
+        if (WeaponController.CheckForContact())
+            GiveDamage(WeaponController.GetTriggeredDamagable());
     }
 }

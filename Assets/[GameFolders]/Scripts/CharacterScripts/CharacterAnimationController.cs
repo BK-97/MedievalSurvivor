@@ -36,14 +36,11 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void AttackAnimation(bool status)
     {
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("SwordCombo2"))
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             if (animationTime < 0.3f && comboContinue)
             {
-                Debug.Log("iptal");
                 comboContinue = false;
             }
             if(animationTime > 0.3f)
@@ -57,9 +54,7 @@ public class CharacterAnimationController : MonoBehaviour
             status = true;
         
         animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
-
     }
-
     private void PassiveSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.PASSIVE_SKILL);
@@ -67,6 +62,10 @@ public class CharacterAnimationController : MonoBehaviour
     private void WeaponSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.WEAPON_SKILL);
+    }
+    public void AttackEvent()
+    {
+        attackController.AttackMoment();
     }
     public void WeaponSkillEvent()
     {
