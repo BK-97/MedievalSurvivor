@@ -40,6 +40,8 @@ public class EnemyAttackController : MonoBehaviour
     }
     public bool IsEnemyInRange()
     {
+        if (enemyTarget == null)
+            return false;
         float distance = Vector3.Distance(transform.position, enemyTarget.transform.position);
         return (distance <= 1.1f);
     }

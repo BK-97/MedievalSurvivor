@@ -17,8 +17,7 @@ public class WeaponTrigger : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        IDamagable damagable = other.GetComponent<IDamagable>();
-        if (damagable != null)
+        if (contactedEnemy==other.gameObject.GetComponent<IDamagable>())
         {
             contactedEnemy = null;
             isTriggered = false;

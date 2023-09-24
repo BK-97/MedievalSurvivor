@@ -168,8 +168,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabs:
-  - {fileID: 4427376173531245595, guid: b91f2cacb0bef7f4bac8f61b0f00b4c6, type: 3}
   - {fileID: 100006, guid: 60bc526f4be1e044ab9e46340b82ffb3, type: 3}
+  - {fileID: 1040608886635896, guid: a97415c6b57076f41a6621a7b51d63a3, type: 3}
+  - {fileID: 1280141305896002, guid: e473029e4c70ad543a6879b82a732f4f, type: 3}
   initialSize: 10
   maxSize: 100
 --- !u!1 &1647220057

@@ -8,4 +8,5 @@ public static class PlayerPrefKeys
 
     public const string CurrentCoin = "Coin";
     public const string CurrentCash = "Cash";
+    public const string CurrentHealth = "Health";
 }

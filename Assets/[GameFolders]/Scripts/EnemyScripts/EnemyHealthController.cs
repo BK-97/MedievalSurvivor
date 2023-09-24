@@ -11,11 +11,15 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
     public Slider healthBar;
     public void Die()
     {
+        if (isDead)
+            return;
+
         isDead = true;
         healthBar.value = currentHealth;
         healthBar.enabled = false;
-        MultiGameObjectPool.Instance.ReturnObject(gameObject);
-        gameObject.SetActive(false);
+        var go = MultiGameObjectPool.Instance.GetObject("SkeletonDeath");
+        go.transform.position = transform.position;
+        Destroy(gameObject);
     }
 
     public void SetHealth(float health)

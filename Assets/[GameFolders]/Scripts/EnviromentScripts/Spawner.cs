@@ -6,14 +6,22 @@ public class Spawner : MonoBehaviour
 {
     public List<int> WaveCounts;
     public float spawnDelay;
-    public float spawnPosDistance;
     public Transform player;
-    public int spawnerIndex;
 
     public static UnityEvent OnSpawnerStart = new UnityEvent();
     public static UnityEvent OnWaveEnd = new UnityEvent();
     private int currentWaveIndex;
+    public GameObject prefab;
     private List<GameObject> spawnedCharacters = new List<GameObject>();
+    [HideInInspector]
+    public List<Transform> spawnPosses;
+    private void Awake()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            spawnPosses.Add(transform.GetChild(i));
+        }
+    }
     private void OnEnable()
     {
         LevelManager.Instance.OnLevelStart.AddListener(Spawn);
@@ -43,8 +51,7 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            var go = MultiGameObjectPool.Instance.GetObject("Skeleton");
-            go.transform.position = RandomPosCalculator();
+            var go = Instantiate(prefab, RandomPosCalculator(), Quaternion.identity);
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
@@ -59,17 +66,24 @@ public class Spawner : MonoBehaviour
     }
     private bool CheckAllEnemiesDie()
     {
+        bool allEnemiesDead = true;
+
         for (int i = 0; i < spawnedCharacters.Count; i++)
         {
-            if (spawnedCharacters[i].activeSelf)
+            if (spawnedCharacters[i] != null)
             {
-                return false;
+                allEnemiesDead = false;
+                break; 
             }
         }
-        return true;
+
+        return allEnemiesDead;
     }
     private Vector3 RandomPosCalculator()
     {
+        int randomIndex = Random.Range(0, spawnPosses.Count - 1);
+        return spawnPosses[randomIndex].position;
+        /*
         Vector3 cameraPosition = Camera.main.transform.position;
 
         float horizontalFOV = Camera.main.fieldOfView;
@@ -83,5 +97,6 @@ public class Spawner : MonoBehaviour
         float y = 0f;
 
         return new Vector3(x, y, z);
+        */
     }
 }

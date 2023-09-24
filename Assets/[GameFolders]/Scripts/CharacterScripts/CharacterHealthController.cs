@@ -6,12 +6,17 @@ using UnityEngine.Events;
 public class CharacterHealthController : MonoBehaviour, IDamagable
 {
     private float currentHealth;
+    private float _maxHealth;
     bool canTakeDamage;
     public static FloatEvent OnHealthChange = new FloatEvent();
     public static FloatEvent OnHealthSet = new FloatEvent();
-    public void SetHealth(float health)
+    public static UnityEvent OnCharacterDie = new UnityEvent();
+
+    public void SetHealth(float maxHealth)
     {
-        currentHealth = health;
+        currentHealth = PlayerPrefs.GetFloat(PlayerPrefKeys.CurrentHealth, maxHealth);
+        OnHealthChange.Invoke(currentHealth);
+        _maxHealth = maxHealth;
         canTakeDamage = true;
     }
 
@@ -22,14 +27,16 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
         if (currentHealth - damage <= 0)
             Die();
         else
+        {
             currentHealth -= damage;
-        OnHealthChange.Invoke(currentHealth);
-
+            PlayerPrefs.SetFloat(PlayerPrefKeys.CurrentHealth, currentHealth);
+            OnHealthChange.Invoke(currentHealth);
+        }
     }
     private void OnEnable()
     {
         OnHealthSet.AddListener(SetHealth);
-
+        
         SkillController.OnPassiveSkillUse.AddListener(() => canTakeDamage = false);
         SkillController.OnPassiveSkillEnd.AddListener(() => canTakeDamage = true);
     }
@@ -39,10 +46,11 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
 
         SkillController.OnPassiveSkillUse.RemoveListener(() => canTakeDamage = false);
         SkillController.OnPassiveSkillEnd.RemoveListener(() => canTakeDamage = true);
-
     }
     public void Die()
     {
+        OnCharacterDie.Invoke();
         GameManager.Instance.CompeleteStage(false);
+        PlayerPrefs.SetFloat(PlayerPrefKeys.CurrentHealth, _maxHealth);
     }
 }

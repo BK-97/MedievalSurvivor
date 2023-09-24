@@ -39,13 +39,11 @@ public class CharacterStateController : MonoBehaviour
     }
     private void OnEnable()
     {
-        SkillController.OnPassiveSkillUse.AddListener(()=>SwitchState(skillState));
-        SkillController.OnWeaponSkillUse.AddListener(()=>SwitchState(skillState));
+        CharacterAnimationController.OnStartSkillAnim.AddListener(()=>SwitchState(skillState));
     }
     private void OnDisable()
     {
-        SkillController.OnPassiveSkillUse.RemoveListener(()=>SwitchState(skillState));
-        SkillController.OnWeaponSkillUse.RemoveListener(() => SwitchState(skillState));
+        CharacterAnimationController.OnStartSkillAnim.RemoveListener(() => SwitchState(skillState));
 
     }
     private void Update()
@@ -95,8 +93,9 @@ public class CharacterStateController : MonoBehaviour
         }
         else if (currentState == skillState)
         {
-            if (AnimController.GetAnimStatus("Movement"))
+            if (AnimController.GetAnimStatus("Movement")&&CheckMovementInput())
             {
+                Debug.Log("girme amk girme");
                 currentState.ExitState(this, idleState);
                 return;
             }
