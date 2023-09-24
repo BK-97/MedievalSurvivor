@@ -21,7 +21,6 @@ public class EnemyAttackController : MonoBehaviour
 
         canAttack = false;
         AnimController.AttackAnimation(status);
-
     }
     IEnumerator WaitAfterAttackCO()
     {

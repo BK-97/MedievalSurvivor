@@ -14,8 +14,8 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
         isDead = true;
         healthBar.value = currentHealth;
         healthBar.enabled = false;
-        gameObject.SetActive(false);
         MultiGameObjectPool.Instance.ReturnObject(gameObject);
+        gameObject.SetActive(false);
     }
 
     public void SetHealth(float health)

@@ -50,6 +50,7 @@ public class EnemyStateController : MonoBehaviour
             return;
         if (HealthController.isDead)
             return;
+
         currentState.UpdateState(this);
         AnimController.SetSpeed(MovementController.GetCurrentSpeed(),characterData.MoveSpeed);
     }

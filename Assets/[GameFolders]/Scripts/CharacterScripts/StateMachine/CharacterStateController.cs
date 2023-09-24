@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMovementController))]
 [RequireComponent(typeof(CharacterAttackController))]
 [RequireComponent(typeof(CharacterHealthController))]
+[RequireComponent(typeof(SkillController))]
 public class CharacterStateController : MonoBehaviour
 {
     #region StateParams
@@ -12,6 +13,7 @@ public class CharacterStateController : MonoBehaviour
     public IdleState idleState = new IdleState();
     public MoveState moveState = new MoveState();
     public AttackState attackState = new AttackState();
+    public SkillState skillState = new SkillState();
     #endregion
     #region Data
     public CharacterData characterData;
@@ -23,6 +25,8 @@ public class CharacterStateController : MonoBehaviour
     public CharacterAttackController AttackController { get { return (attackController == null) ? attackController = GetComponent<CharacterAttackController>() : attackController; } }
     private CharacterHealthController healthController;
     public CharacterHealthController HealthController { get { return (healthController == null) ? healthController = GetComponent<CharacterHealthController>() : healthController; } }
+    private SkillController skillController;
+    public SkillController SkillController { get { return (skillController == null) ? skillController = GetComponent<SkillController>() : skillController; } }
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
     #endregion
@@ -33,6 +37,17 @@ public class CharacterStateController : MonoBehaviour
         idleState.EnterState(this);
         currentState = idleState;
     }
+    private void OnEnable()
+    {
+        SkillController.OnPassiveSkillUse.AddListener(()=>SwitchState(skillState));
+        SkillController.OnWeaponSkillUse.AddListener(()=>SwitchState(skillState));
+    }
+    private void OnDisable()
+    {
+        SkillController.OnPassiveSkillUse.RemoveListener(()=>SwitchState(skillState));
+        SkillController.OnWeaponSkillUse.RemoveListener(() => SwitchState(skillState));
+
+    }
     private void Update()
     {
         if (!LevelManager.Instance.IsLevelStarted)
@@ -40,7 +55,6 @@ public class CharacterStateController : MonoBehaviour
         if (currentState == null)
             return;
         currentState.UpdateState(this);
-
         if (currentState == idleState)
         {
             if (CheckAttackInput())
@@ -73,6 +87,14 @@ public class CharacterStateController : MonoBehaviour
             if (AnimController.comboContinue)
                 return;
 
+            if (AnimController.GetAnimStatus("Movement"))
+            {
+                currentState.ExitState(this, idleState);
+                return;
+            }
+        }
+        else if (currentState == skillState)
+        {
             if (AnimController.GetAnimStatus("Movement"))
             {
                 currentState.ExitState(this, idleState);

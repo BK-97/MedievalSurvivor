@@ -27,6 +27,13 @@ public class EnemyMovementController : MonoBehaviour
             return;
         if (!NavMeshAgent.enabled)
             return;
+        if (!gameObject.activeSelf)
+            return;
+        if (targetTransform == null)
+        {
+            NavMeshAgent.SetDestination(transform.position);
+            return;
+        }
         if (IsDestinationReached())
         {
             targetPos = transform.position;

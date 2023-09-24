@@ -28,6 +28,8 @@ public class UILookToCamera : MonoBehaviour
     #region My Methods
     private void Update()
     {
+        if (mainCamera == null)
+            return;
         if (look)
         {
             transform.LookAt(mainCamera.transform);
