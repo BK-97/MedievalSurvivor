@@ -70,10 +70,14 @@ public class InputManager : Singleton<InputManager>
     #region SetMethods
     private void OnMovementPerformed(InputAction.CallbackContext value)
     {
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         moveVector = value.ReadValue<Vector2>();
     }
     private void OnMovementCancelled(InputAction.CallbackContext value)
     {
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         moveVector = Vector2.zero;
     }
     private void SetMousePos(InputAction.CallbackContext value)
@@ -82,12 +86,14 @@ public class InputManager : Singleton<InputManager>
     }
     private void OnAttackPerformed(InputAction.CallbackContext value)
     {
-
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         isAttacking = true;
     }
     private void OnAttackCancelled(InputAction.CallbackContext value)
     {
-
+        if (!LevelManager.Instance.IsLevelStarted)
+            return;
         isAttacking = false;
     }
 

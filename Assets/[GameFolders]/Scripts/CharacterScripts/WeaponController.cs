@@ -6,14 +6,14 @@ public class WeaponController : MonoBehaviour
 {
     private WeaponHolder weaponHolder;
     private int currentWeaponIndex=-1;
-    StateController stateController;
+    private CharacterStateController stateController;
 
     public static UnityEvent OnWeaponChange = new UnityEvent();
 
     private void Start()
     {
-        stateController = GetComponent<StateController>();
         weaponHolder = GetComponentInChildren<WeaponHolder>();
+        stateController = GetComponent<CharacterStateController>();
         ChangeWeapon();
     }
     private void OnEnable()
@@ -28,14 +28,15 @@ public class WeaponController : MonoBehaviour
     public void ChangeWeapon()
     {
         currentWeaponIndex++;
+
         if (weaponHolder.Weapons.Count == currentWeaponIndex)
             currentWeaponIndex = 0;
 
         weaponHolder.WeaponChange(currentWeaponIndex);
+        stateController.AnimController.SetWeaponIndex(currentWeaponIndex);
 
         SetDamage();
 
-        stateController.AnimController.SetWeaponIndex(currentWeaponIndex);
     }
     public void SetDamage()
     {

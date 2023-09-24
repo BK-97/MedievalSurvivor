@@ -30,14 +30,5 @@ public class Utilities : MonoBehaviour
 
         return Vector3.zero;
     }
-    public static bool IsPlayingAnimation(Animator animator,string animationName)
-    {
-        if (animator == null)
-        {
-            return false;
-        }
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        return animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == animationName && stateInfo.normalizedTime < 1f;
-    }
 }

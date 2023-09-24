@@ -1,8 +1,8 @@
 public abstract class BaseState
 {
-    public abstract void EnterState(StateController stateController);
-    public abstract void UpdateState(StateController stateController);
-    public abstract void FixedUpdateState(StateController stateController);
-    public abstract void ExitState(StateController stateController, BaseState nextState);
+    public abstract void EnterState(CharacterStateController stateController);
+    public abstract void UpdateState(CharacterStateController stateController);
+    public abstract void FixedUpdateState(CharacterStateController stateController);
+    public abstract void ExitState(CharacterStateController stateController, BaseState nextState);
 
 }

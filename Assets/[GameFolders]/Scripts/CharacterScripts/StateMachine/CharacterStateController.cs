@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterMovementController))]
 [RequireComponent(typeof(CharacterAttackController))]
 [RequireComponent(typeof(CharacterHealthController))]
-public class StateController : MonoBehaviour
+public class CharacterStateController : MonoBehaviour
 {
     #region StateParams
     public BaseState currentState = null;
@@ -40,38 +40,46 @@ public class StateController : MonoBehaviour
             return;
         if (currentState == null)
             return;
-
         currentState.UpdateState(this);
+        Debug.Log(currentState);
 
-
-        if (CheckAttackInput())
+        if (currentState == idleState)
         {
-            if(currentState!=attackState)
-                currentState.ExitState(this, attackState);
-            else
+            if (CheckAttackInput())
             {
-                if (animController.IsInComboWindow())
-                    animController.comboContinue=true;
+                currentState.ExitState(this, attackState);
+                return;
             }
-        }
-        else
-        {
-            if (animController.comboContinue)
+            else if (CheckMovementInput())
+            {
+                currentState.ExitState(this, moveState);
                 return;
 
-            if (currentState == attackState)
+            }
+        }
+        else if (currentState == moveState)
+        {
+            if (CheckAttackInput())
+            {
+                currentState.ExitState(this, attackState);
+                return;
+            }
+            else if (!CheckMovementInput())
+            {
                 currentState.ExitState(this, idleState);
+                return;
+            }
+        }
+        else if (currentState == attackState)
+        {
+            if (AnimController.comboContinue)
+                return;
 
-        }
-        if (CheckMovementInput())
-        {
-            if (currentState != moveState&&currentState!=attackState)
-                currentState.ExitState(this, moveState);
-        }
-        else
-        {
-            if (currentState == moveState)
+            if (AnimController.GetAnimStatus("Movement"))
+            {
                 currentState.ExitState(this, idleState);
+                return;
+            }
         }
 
     }
@@ -89,9 +97,8 @@ public class StateController : MonoBehaviour
         currentState = changeState;
         currentState.EnterState(this);
     }
-
     #region CheckMethods
-    private bool CheckMovementInput()
+    public bool CheckMovementInput()
     {
         Vector3 movementDirection = InputManager.Instance.GetDirection();
         if (movementDirection == Vector3.zero)
@@ -101,7 +108,7 @@ public class StateController : MonoBehaviour
         else
             return true;
     }
-    private bool CheckAttackInput()
+    public bool CheckAttackInput()
     {
         bool isAttacking = InputManager.Instance.IsAttacking();
         return isAttacking;

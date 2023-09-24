@@ -6,6 +6,7 @@ public class CharacterAnimationController : MonoBehaviour
 {
     private Animator animator;
     public bool comboContinue;
+    private int comboIndex;
     private SkillController skillController;
     private CharacterAttackController attackController;
     private void Start()
@@ -28,7 +29,6 @@ public class CharacterAnimationController : MonoBehaviour
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
         animator.SetFloat(AnimationKeys.SPEED, normalizedSpeed);
-
     }
     public void SetWeaponIndex(int weaponIndex)
     {
@@ -36,12 +36,28 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void AttackAnimation(bool status)
     {
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("SwordCombo2"))
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        {
+            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (animationTime < 0.3f && comboContinue)
+            {
+                Debug.Log("iptal");
+                comboContinue = false;
+            }
+            if(animationTime > 0.3f)
+            {
+                if (status)
+                    comboContinue = true;
+            }
+
+        }
+        if (comboContinue)
+            status = true;
+        
         animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
 
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 0.4f && comboContinue)
-        {
-            comboContinue = false;
-        }
     }
 
     private void PassiveSkillAnimation()
@@ -54,7 +70,7 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void WeaponSkillEvent()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius,LayerMask.GetMask("Enemy"));
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius, LayerMask.GetMask("Enemy"));
 
         foreach (Collider collider in hitColliders)
         {
@@ -64,8 +80,15 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public bool IsInComboWindow()
     {
-        float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime; 
+        float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
         return normalizedTime >= 0.5f && normalizedTime <= 0.9f;
     }
-
+    public bool GetAnimStatus(string animName)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(animName);
+    }
+    public float GetCurrentAnimTime()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
 }
