@@ -6,7 +6,7 @@ public class CharacterAttackController : MonoBehaviour
 {
     float currentDamage;
     private CharacterAnimationController animController;
-    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
+    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     private WeaponController weaponController;
     public WeaponController WeaponController { get { return (weaponController == null) ? weaponController = GetComponent<WeaponController>() : weaponController; } }
     public void SetAttackData(float damage)

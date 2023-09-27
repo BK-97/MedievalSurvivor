@@ -28,12 +28,12 @@ public class CharacterStateController : MonoBehaviour
     private SkillController skillController;
     public SkillController SkillController { get { return (skillController == null) ? skillController = GetComponent<SkillController>() : skillController; } }
     private CharacterAnimationController animController;
-    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponentInChildren<CharacterAnimationController>() : animController; } }
+    public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     #endregion
     private void Start()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
-        MovementController.SetSpeed(characterData.MoveSpeed);
+        MovementController.Initialize(characterData.MoveSpeed);
         idleState.EnterState(this);
         currentState = idleState;
     }

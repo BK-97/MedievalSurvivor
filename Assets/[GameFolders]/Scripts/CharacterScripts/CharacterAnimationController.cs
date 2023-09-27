@@ -13,8 +13,8 @@ public class CharacterAnimationController : MonoBehaviour
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
     private void Start()
     {
-        skillController = GetComponentInParent<SkillController>();
-        attackController = GetComponentInParent<CharacterAttackController>();
+        skillController = GetComponent<SkillController>();
+        attackController = GetComponent<CharacterAttackController>();
     }
     private void OnEnable()
     {
@@ -33,6 +33,10 @@ public class CharacterAnimationController : MonoBehaviour
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
         animator.SetFloat(AnimationKeys.SPEED, normalizedSpeed);
+        if (currentSpeed == 0)
+            animator.applyRootMotion = true;
+        else
+            animator.applyRootMotion = false;
     }
     public void SetWeaponIndex(int weaponIndex)
     {
