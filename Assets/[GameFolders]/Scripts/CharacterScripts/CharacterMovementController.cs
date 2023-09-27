@@ -6,6 +6,7 @@ using DG.Tweening;
 
 public class CharacterMovementController : MonoBehaviour
 {
+    #region Params
     private Rigidbody rb = null;
     private float maxSpeed;
     private float currentSpeed;
@@ -13,6 +14,7 @@ public class CharacterMovementController : MonoBehaviour
     const float ACCELERATION = 3;
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
+    #endregion
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,6 +23,7 @@ public class CharacterMovementController : MonoBehaviour
     {
         maxSpeed = speed;
     }
+
     public void Move()
     {
         Vector3 moveDirection = InputManager.Instance.GetDirection();

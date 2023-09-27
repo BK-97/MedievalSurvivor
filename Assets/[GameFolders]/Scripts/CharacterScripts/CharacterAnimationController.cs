@@ -5,12 +5,17 @@ using UnityEngine.Events;
 
 public class CharacterAnimationController : MonoBehaviour
 {
+    #region Params
     public Animator animator;
     public bool comboContinue;
     private int comboIndex;
     private SkillController skillController;
     private CharacterAttackController attackController;
+    #endregion
+    #region Events
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
+    #endregion
+    #region MonoMethods
     private void Start()
     {
         skillController = GetComponent<SkillController>();
@@ -29,6 +34,8 @@ public class CharacterAnimationController : MonoBehaviour
         CharacterHealthController.OnCharacterDie.RemoveListener(DeathAnim);
 
     }
+    #endregion
+    #region MoveAnims
     public void SetSpeed(float currentSpeed, float maxSpeed)
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
@@ -38,6 +45,13 @@ public class CharacterAnimationController : MonoBehaviour
         else
             animator.applyRootMotion = false;
     }
+    public void RollOver()
+    {
+        animator.applyRootMotion = true;
+        animator.SetTrigger(AnimationKeys.ROLL_OVER);
+    }
+    #endregion
+    #region AttackAnims
     public void SetWeaponIndex(int weaponIndex)
     {
         animator.SetInteger("WeaponIndex", weaponIndex);
@@ -63,6 +77,12 @@ public class CharacterAnimationController : MonoBehaviour
         
         animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
     }
+    public void AttackEvent()
+    {
+        attackController.AttackMoment();
+    }
+    #endregion
+    #region SkillAnims
     private void PassiveSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.PASSIVE_SKILL);
@@ -73,26 +93,26 @@ public class CharacterAnimationController : MonoBehaviour
         animator.SetTrigger(AnimationKeys.WEAPON_SKILL);
         OnStartSkillAnim.Invoke();
     }
-    public void AttackEvent()
+    public void WeaponSkillEvent()
     {
-        attackController.AttackMoment();
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius, LayerMask.GetMask("Enemy"));
+        var go = MultiGameObjectPool.Instance.GetObject("RockHitGround");
+        go.transform.position = transform.position;
+        foreach (Collider collider in hitColliders)
+        {
+            IDamagable damagable = collider.GetComponent<IDamagable>();
+            attackController.GiveDamage(damagable, 40);
+        }
     }
+    #endregion
+    #region DeathAnim
     private void DeathAnim()
     {
         animator.Rebind();
         animator.SetTrigger(AnimationKeys.DIE);
     }
-    public void WeaponSkillEvent()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius, LayerMask.GetMask("Enemy"));
-        var go=MultiGameObjectPool.Instance.GetObject("RockHitGround");
-        go.transform.position = transform.position;
-        foreach (Collider collider in hitColliders)
-        {
-            IDamagable damagable = collider.GetComponent<IDamagable>();
-            attackController.GiveDamage(damagable,40);
-        }
-    }
+    #endregion
+    #region Helpers
     public bool IsInComboWindow()
     {
         float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -106,4 +126,6 @@ public class CharacterAnimationController : MonoBehaviour
     {
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
+    #endregion
+
 }

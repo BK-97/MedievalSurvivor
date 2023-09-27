@@ -14,6 +14,7 @@ public class InputManager : Singleton<InputManager>
     public static UnityEvent OnPassiveSkillInput = new UnityEvent();
     public static UnityEvent OnWeaponSkillInput = new UnityEvent();
     public static UnityEvent OnInteractInput = new UnityEvent();
+    public static UnityEvent OnRollOverInput = new UnityEvent();
     #endregion
     #region MonoBehaviourMethods
     private void Awake()
@@ -44,6 +45,7 @@ public class InputManager : Singleton<InputManager>
         input.Player.PassiveSkill.performed += ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed += ctx => OnWeaponSkillInput.Invoke();
         input.Player.Interact.performed += ctx => OnInteractInput.Invoke();
+        input.Player.RollOver.performed += ctx => OnRollOverInput.Invoke();
     }
     private void RemoveInputListeners()
     {
@@ -57,6 +59,8 @@ public class InputManager : Singleton<InputManager>
         input.Player.PassiveSkill.performed -= ctx => OnPassiveSkillInput.Invoke();
         input.Player.WeaponSkill.performed -= ctx => OnWeaponSkillInput.Invoke();
         input.Player.Interact.performed -= ctx => OnInteractInput.Invoke();
+        input.Player.RollOver.performed -= ctx => OnRollOverInput.Invoke();
+
     }
     private void Update()
     {

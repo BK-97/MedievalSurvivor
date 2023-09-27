@@ -40,10 +40,12 @@ public class CharacterStateController : MonoBehaviour
     private void OnEnable()
     {
         CharacterAnimationController.OnStartSkillAnim.AddListener(()=>SwitchState(skillState));
+        InputManager.OnRollOverInput.AddListener(RollOverCheck);
     }
     private void OnDisable()
     {
         CharacterAnimationController.OnStartSkillAnim.RemoveListener(() => SwitchState(skillState));
+        InputManager.OnRollOverInput.RemoveListener(RollOverCheck);
 
     }
     private void Update()
@@ -115,6 +117,13 @@ public class CharacterStateController : MonoBehaviour
         currentState = changeState;
         currentState.EnterState(this);
     }
+    private void RollOverCheck()
+    {
+        if(AnimController.animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
+        {
+
+        }
+    }
     #region CheckMethods
     public bool CheckMovementInput()
     {
@@ -126,6 +135,7 @@ public class CharacterStateController : MonoBehaviour
         else
             return true;
     }
+
     public bool CheckAttackInput()
     {
         bool isAttacking = InputManager.Instance.IsAttacking();

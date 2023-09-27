@@ -13,5 +13,6 @@ public static class AnimationKeys
     public static readonly int PASSIVE_SKILL = Animator.StringToHash("PassiveSkill");
     public static readonly int WEAPON_SKILL = Animator.StringToHash("WeaponSkill");
     public static readonly int CANCEL_ATTACK = Animator.StringToHash("CancelAttack");
+    public static readonly int ROLL_OVER = Animator.StringToHash("RollOver");
     #endregion
 }
