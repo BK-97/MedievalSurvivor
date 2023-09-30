@@ -87,7 +87,7 @@ public class CharacterStateController : MonoBehaviour
             if (AnimController.comboContinue)
                 return;
 
-            if (AnimController.GetAnimStatus("Movement"))
+            if (!AnimController.IsAttacking())
             {
                 currentState.ExitState(this, idleState);
                 return;

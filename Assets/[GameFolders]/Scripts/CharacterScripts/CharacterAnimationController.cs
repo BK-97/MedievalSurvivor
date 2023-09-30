@@ -11,6 +11,9 @@ public class CharacterAnimationController : MonoBehaviour
     private int comboIndex;
     private SkillController skillController;
     private CharacterAttackController attackController;
+    private bool isRolling;
+    [SerializeField]
+    private bool isAttacking;
     #endregion
     #region Events
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
@@ -34,6 +37,33 @@ public class CharacterAnimationController : MonoBehaviour
         CharacterHealthController.OnCharacterDie.RemoveListener(DeathAnim);
 
     }
+    private void FixedUpdate()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SwordCombo2"))
+        {
+            AnimatorStateInfo animationState = animator.GetCurrentAnimatorStateInfo(0);
+            AnimatorClipInfo[] myAnimatorClip = animator.GetCurrentAnimatorClipInfo(0);
+            float myTime = myAnimatorClip[0].clip.length * animationState.normalizedTime;
+
+            Debug.Log(myTime);
+
+        }
+        if (isRolling)
+        {
+            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length / animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            if (animationTime > 0.95f)
+                isRolling = false;
+        }
+        if (isAttacking)
+        {
+            if (!comboContinue)
+            {
+                float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                if (animationTime > 0.95f)
+                    isAttacking = false;
+            }
+        }
+    }
     #endregion
     #region MoveAnims
     public void SetSpeed(float currentSpeed, float maxSpeed)
@@ -48,6 +78,7 @@ public class CharacterAnimationController : MonoBehaviour
     public void RollOver()
     {
         animator.applyRootMotion = true;
+        isRolling = true;
         animator.SetTrigger(AnimationKeys.ROLL_OVER);
     }
     #endregion
@@ -56,26 +87,34 @@ public class CharacterAnimationController : MonoBehaviour
     {
         animator.SetInteger("WeaponIndex", weaponIndex);
     }
-    public void AttackAnimation(bool status)
+    public void AttackAnimation()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if (isAttacking)
         {
             float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (animationTime < 0.3f && comboContinue)
-            {
-                comboContinue = false;
-            }
-            if(animationTime > 0.3f)
-            {
-                if (status)
-                    comboContinue = true;
-            }
 
+            if (animationTime > 0.2f)
+            {
+                comboContinue = true;
+            }
         }
+        else
+        {
+            isAttacking = true;
+            animator.SetBool(AnimationKeys.ATTACK_BOOL, true);
+        }
+    }
+    
+    public void AttackEndEvent()
+    {
         if (comboContinue)
-            status = true;
-        
-        animator.SetBool(AnimationKeys.ATTACK_BOOL, status);
+            return;
+        else
+            isAttacking = false;
+    }
+    public void EndAttack()
+    {
+        animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
     }
     public void AttackEvent()
     {
@@ -113,6 +152,14 @@ public class CharacterAnimationController : MonoBehaviour
     }
     #endregion
     #region Helpers
+    public bool IsAttacking()
+    {
+        return isAttacking;
+    }
+    public bool IsRolling()
+    {
+        return isRolling;
+    }
     public bool IsInComboWindow()
     {
         float normalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
@@ -127,5 +174,4 @@ public class CharacterAnimationController : MonoBehaviour
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
     }
     #endregion
-
 }

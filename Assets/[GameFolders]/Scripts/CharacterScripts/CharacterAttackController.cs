@@ -15,18 +15,26 @@ public class CharacterAttackController : MonoBehaviour
     }
     public void Attack(bool status)
     {
-        Vector3 attackDirection = InputManager.Instance.GetMouseWorldPos()-transform.position;
+        Vector3 attackDirection = InputManager.Instance.GetMouseWorldPos() - transform.position;
         if (attackDirection != Vector3.zero)
         {
             Quaternion rotation = Quaternion.LookRotation(attackDirection);
             transform.rotation = rotation;
         }
+        if (status)
+        {
+            if (!AnimController.IsAttacking())
+                AnimController.AttackAnimation();
+        }
+        else
+        {
+            AnimController.EndAttack();
 
-        AnimController.AttackAnimation(status);
+        }
     }
     public Transform muzzle;
     public LayerMask enemyLayer;
-    public void GiveDamage(IDamagable enemyTarget,float damage)
+    public void GiveDamage(IDamagable enemyTarget, float damage)
     {
         enemyTarget.TakeDamage(damage);
     }
@@ -59,7 +67,7 @@ public class CharacterAttackController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(rayStartPoint, rayDirection, out hit, 2, enemyLayer))
             {
-                if(hit.collider.gameObject.GetComponent<IDamagable>()!=null)
+                if (hit.collider.gameObject.GetComponent<IDamagable>() != null)
                     hitObjects.Add(hit.collider.gameObject);
             }
 
