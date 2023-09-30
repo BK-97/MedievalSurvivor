@@ -14,6 +14,7 @@ public class CharacterAnimationController : MonoBehaviour
     private bool isRolling;
     [SerializeField]
     private bool isAttacking;
+    private bool canTakeCombo;
     #endregion
     #region Events
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
@@ -36,33 +37,6 @@ public class CharacterAnimationController : MonoBehaviour
         SkillController.OnWeaponSkillUse.RemoveListener(WeaponSkillAnimation);
         CharacterHealthController.OnCharacterDie.RemoveListener(DeathAnim);
 
-    }
-    private void FixedUpdate()
-    {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("SwordCombo2"))
-        {
-            AnimatorStateInfo animationState = animator.GetCurrentAnimatorStateInfo(0);
-            AnimatorClipInfo[] myAnimatorClip = animator.GetCurrentAnimatorClipInfo(0);
-            float myTime = myAnimatorClip[0].clip.length * animationState.normalizedTime;
-
-            Debug.Log(myTime);
-
-        }
-        if (isRolling)
-        {
-            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length / animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            if (animationTime > 0.95f)
-                isRolling = false;
-        }
-        if (isAttacking)
-        {
-            if (!comboContinue)
-            {
-                float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-                if (animationTime > 0.95f)
-                    isAttacking = false;
-            }
-        }
     }
     #endregion
     #region MoveAnims
@@ -91,35 +65,44 @@ public class CharacterAnimationController : MonoBehaviour
     {
         if (isAttacking)
         {
-            float animationTime = animator.GetCurrentAnimatorStateInfo(0).length * animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-
-            if (animationTime > 0.2f)
+            if (!comboContinue)
             {
                 comboContinue = true;
+                Debug.Log("Combo");
             }
         }
-        else
+        else 
         {
-            isAttacking = true;
-            animator.SetBool(AnimationKeys.ATTACK_BOOL, true);
+            comboContinue = false;
         }
+        animator.SetBool(AnimationKeys.ATTACK_BOOL, true);
+
     }
-    
+    public void AttackStartEvent()
+    {
+        Debug.Log("AttackStart");
+
+        comboContinue = false;
+        isAttacking = true;
+    }
+    public void AttackEvent()
+    {
+        Debug.Log("Attack");
+
+        attackController.AttackMoment();
+    }
     public void AttackEndEvent()
     {
-        if (comboContinue)
-            return;
-        else
+        Debug.Log("AttackEnd");
+        if (!comboContinue)
             isAttacking = false;
     }
     public void EndAttack()
     {
-        animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
+        if(!comboContinue)
+            animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
     }
-    public void AttackEvent()
-    {
-        attackController.AttackMoment();
-    }
+
     #endregion
     #region SkillAnims
     private void PassiveSkillAnimation()

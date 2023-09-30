@@ -16,20 +16,21 @@ public class CharacterAttackController : MonoBehaviour
     public void Attack(bool status)
     {
         Vector3 attackDirection = InputManager.Instance.GetMouseWorldPos() - transform.position;
-        if (attackDirection != Vector3.zero)
-        {
-            Quaternion rotation = Quaternion.LookRotation(attackDirection);
-            transform.rotation = rotation;
-        }
         if (status)
         {
             if (!AnimController.IsAttacking())
-                AnimController.AttackAnimation();
+            {
+                if (attackDirection != Vector3.zero)
+                {
+                    Quaternion rotation = Quaternion.LookRotation(attackDirection);
+                    transform.rotation = rotation;
+                }
+            }
+            AnimController.AttackAnimation();
         }
         else
         {
             AnimController.EndAttack();
-
         }
     }
     public Transform muzzle;
@@ -43,12 +44,8 @@ public class CharacterAttackController : MonoBehaviour
         WeaponController.weaponHolder.currentWeapon.TrailPlay();
         if (RaycastCheck() != null)
         {
-            Debug.Log("girdi");
             GiveDamage(RaycastCheck(), currentDamage);
-
         }
-        //if (WeaponController.CheckForContact())
-        //    GiveDamage(WeaponController.GetTriggeredDamagable(),currentDamage);
     }
     private IDamagable RaycastCheck()
     {
