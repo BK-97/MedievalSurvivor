@@ -51,9 +51,17 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void RollOver()
     {
+        animator.SetFloat(AnimationKeys.SPEED, 0);
+        animator.SetBool(AnimationKeys.ROLL_OVER, true);
+
         animator.applyRootMotion = true;
         isRolling = true;
-        animator.SetTrigger(AnimationKeys.ROLL_OVER);
+    }
+    public void RollOverEnd()
+    {
+        animator.applyRootMotion = false;
+        isRolling = false;
+        animator.SetBool(AnimationKeys.ROLL_OVER, false);
     }
     #endregion
     #region AttackAnims

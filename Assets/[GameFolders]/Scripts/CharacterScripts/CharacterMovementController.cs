@@ -10,6 +10,8 @@ public class CharacterMovementController : MonoBehaviour
     private Rigidbody rb = null;
     private float maxSpeed;
     private float currentSpeed;
+    public bool canRollOver;
+    float rollOverCoolDown=3;
     const float ROTATE_SPEED=720;
     const float ACCELERATION = 3;
     private CharacterAnimationController animController;
@@ -22,10 +24,13 @@ public class CharacterMovementController : MonoBehaviour
     public void Initialize(int speed)
     {
         maxSpeed = speed;
+        canRollOver = true;
     }
 
     public void Move()
     {
+        if (AnimController.IsRolling())
+            return;
         Vector3 moveDirection = InputManager.Instance.GetDirection();
         currentSpeed = Mathf.Lerp(currentSpeed, maxSpeed, Time.deltaTime * ACCELERATION);
         rb.velocity = moveDirection * currentSpeed;
@@ -53,9 +58,18 @@ public class CharacterMovementController : MonoBehaviour
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, Time.deltaTime * ROTATE_SPEED);
         }
     }
+    public void RollOver()
+    {
+        canRollOver = false;
+        StartCoroutine(WaitRollOverCO());
+    }
+    IEnumerator WaitRollOverCO()
+    {
+        yield return new WaitForSeconds(rollOverCoolDown);
+        canRollOver = true;
+    }
     public float GetCurrentSpeed()
     {
         return currentSpeed;
     }
-
 }
