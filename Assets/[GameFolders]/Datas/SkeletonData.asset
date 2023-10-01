@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: SkeletonData
   m_EditorClassIdentifier: 
   CharacterType: 1
-  Health: 20
+  Health: 200
   MoveSpeed: 4
-  BaseDamage: 5
+  BaseDamage: 1

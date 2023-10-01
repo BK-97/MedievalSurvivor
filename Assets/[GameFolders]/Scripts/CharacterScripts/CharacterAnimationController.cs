@@ -68,7 +68,6 @@ public class CharacterAnimationController : MonoBehaviour
             if (!comboContinue)
             {
                 comboContinue = true;
-                Debug.Log("Combo");
             }
         }
         else 
@@ -80,20 +79,15 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void AttackStartEvent()
     {
-        Debug.Log("AttackStart");
-
         comboContinue = false;
         isAttacking = true;
     }
     public void AttackEvent()
     {
-        Debug.Log("Attack");
-
         attackController.AttackMoment();
     }
     public void AttackEndEvent()
     {
-        Debug.Log("AttackEnd");
         if (!comboContinue)
             isAttacking = false;
     }

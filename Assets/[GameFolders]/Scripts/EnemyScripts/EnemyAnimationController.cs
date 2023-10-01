@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class EnemyAnimationController : MonoBehaviour
 {
+    #region Params
     [HideInInspector]
     public Animator animator;
     private EnemyAttackController attackController;
-    private void Start()
+    public EnemyAttackController AttackController { get { return (attackController == null) ? attackController = GetComponent<EnemyAttackController>() : attackController; } }
+    #endregion
+    private void Awake()
     {
         animator = GetComponent<Animator>();
-        attackController = GetComponent<EnemyAttackController>();
     }
     public void SetSpeed(float currentSpeed, float maxSpeed)
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
         animator.SetFloat(AnimationKeys.SPEED, normalizedSpeed);
-
+    }
+    public void HitAnimation()
+    {
+        CancelAttackAnimation();
+        GetComponent<EnemyMovementController>().BackStep();
+        GetComponent<EnemyAttackController>().GetHit();
+        animator.SetTrigger(AnimationKeys.GET_HIT_ANIMATION);
     }
     public void AttackAnimation(bool status)
     {
@@ -24,11 +32,15 @@ public class EnemyAnimationController : MonoBehaviour
     }
     public void CancelAttackAnimation()
     {
-        animator.SetTrigger(AnimationKeys.CANCEL_ATTACK);
+        if (animator.GetBool(AnimationKeys.ATTACK_BOOL))
+        {
+            animator.SetTrigger(AnimationKeys.CANCEL_ATTACK);
+            animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
+        }
     }
     public void AttackEvent()
     {
-        attackController.GiveDamage();
+        AttackController.GiveDamage();
     }
     public bool CanSwitchState()
     {

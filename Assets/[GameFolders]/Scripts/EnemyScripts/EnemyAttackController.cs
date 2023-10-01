@@ -19,12 +19,12 @@ public class EnemyAttackController : MonoBehaviour
         if (!canAttack)
             return;
 
-        canAttack = false;
         AnimController.AttackAnimation(status);
     }
-    IEnumerator WaitAfterAttackCO()
+    IEnumerator WaitAfterAttackCO(float waitTime)
     {
-        yield return new WaitForSeconds(1);
+        canAttack = false;
+        yield return new WaitForSeconds(waitTime);
         canAttack = true;
     }
     public void GiveDamage()
@@ -32,7 +32,11 @@ public class EnemyAttackController : MonoBehaviour
         enemyTarget.GetComponent<IDamagable>().TakeDamage(currentDamage);
         AnimController.AttackAnimation(false);
 
-        StartCoroutine(WaitAfterAttackCO());
+        StartCoroutine(WaitAfterAttackCO(1));
+    }
+    public void GetHit()
+    {
+        WaitAfterAttackCO(0.5f);
     }
     public void SetTarget(GameObject target)
     {
