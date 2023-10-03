@@ -5,6 +5,8 @@ using UnityEngine;
 public class CharacterAttackController : MonoBehaviour
 {
     float currentDamage;
+    public Transform muzzle;
+    public LayerMask enemyLayer;
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     private WeaponController weaponController;
@@ -16,25 +18,29 @@ public class CharacterAttackController : MonoBehaviour
     public void Attack(bool status)
     {
         Vector3 attackDirection = InputManager.Instance.GetMouseWorldPos() - transform.position;
+        if (!AnimController.IsAttacking())
+        {
+            if (attackDirection != Vector3.zero)
+            {
+                Quaternion rotation = Quaternion.LookRotation(attackDirection);
+                transform.rotation = rotation;
+            }
+        }
         if (status)
         {
-            if (!AnimController.IsAttacking())
-            {
-                if (attackDirection != Vector3.zero)
-                {
-                    Quaternion rotation = Quaternion.LookRotation(attackDirection);
-                    transform.rotation = rotation;
-                }
-            }
             AnimController.AttackAnimation();
+
+            if (AnimController.canTakeCombo)
+            {
+                AnimController.ComboAttack();
+            }
         }
         else
         {
             AnimController.EndAttack();
         }
     }
-    public Transform muzzle;
-    public LayerMask enemyLayer;
+
     public void GiveDamage(IDamagable enemyTarget, float damage)
     {
         enemyTarget.TakeDamage(damage);

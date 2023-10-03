@@ -7,11 +7,12 @@ using DG.Tweening;
 public class CharacterMovementController : MonoBehaviour
 {
     #region Params
+    public bool canRollOver;
+    public RectTransform Indicator;
     private Rigidbody rb = null;
     private float maxSpeed;
     private float currentSpeed;
-    public bool canRollOver;
-    float rollOverCoolDown=3;
+    private float rollOverCoolDown =3;
     const float ROTATE_SPEED=720;
     const float ACCELERATION = 3;
     private CharacterAnimationController animController;
@@ -36,7 +37,6 @@ public class CharacterMovementController : MonoBehaviour
         rb.velocity = moveDirection * currentSpeed;
         AnimController.SetSpeed(currentSpeed, maxSpeed);
     }
-    
     public void MoveEnd()
     {
         rb.velocity = Vector3.zero;
@@ -48,7 +48,12 @@ public class CharacterMovementController : MonoBehaviour
         sequence.Append(DOTween.To(() => currentSpeed, x => currentSpeed = x, targetSpeed, duration)).SetEase(Ease.Linear)
             .OnUpdate(()=> AnimController.SetSpeed(currentSpeed, maxSpeed)).OnComplete(()=> AnimController.SetSpeed(0, maxSpeed));
     }
-
+    private void Update()
+    {
+        Vector3 rotateDirection = InputManager.Instance.GetMouseWorldPos() - transform.position;
+        Quaternion toRotation = Quaternion.LookRotation(rotateDirection, Vector3.up);
+        Indicator.rotation = Quaternion.RotateTowards(Indicator.rotation, toRotation, Time.deltaTime * ROTATE_SPEED);
+    }
     public void RotateTowards()
     {
         Vector3 rotateDirection = InputManager.Instance.GetDirection();

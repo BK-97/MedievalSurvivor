@@ -12,9 +12,9 @@ public class CharacterAnimationController : MonoBehaviour
     private SkillController skillController;
     private CharacterAttackController attackController;
     private bool isRolling;
-    [SerializeField]
-    private bool isAttacking;
-    private bool canTakeCombo;
+    private bool onAttackingAnim;
+    private bool onSkillAnim;
+    public bool canTakeCombo;
     #endregion
     #region Events
     public static UnityEvent OnStartSkillAnim = new UnityEvent();
@@ -71,24 +71,19 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void AttackAnimation()
     {
-        if (isAttacking)
-        {
-            if (!comboContinue)
-            {
-                comboContinue = true;
-            }
-        }
-        else 
-        {
-            comboContinue = false;
-        }
+
+        onAttackingAnim = true;
         animator.SetBool(AnimationKeys.ATTACK_BOOL, true);
 
+    }
+    public void ComboAttack()
+    {
+        comboContinue = true;
     }
     public void AttackStartEvent()
     {
         comboContinue = false;
-        isAttacking = true;
+        canTakeCombo = true;
     }
     public void AttackEvent()
     {
@@ -96,8 +91,8 @@ public class CharacterAnimationController : MonoBehaviour
     }
     public void AttackEndEvent()
     {
-        if (!comboContinue)
-            isAttacking = false;
+        onAttackingAnim = false;
+        canTakeCombo = false;
     }
     public void EndAttack()
     {
@@ -110,12 +105,18 @@ public class CharacterAnimationController : MonoBehaviour
     private void PassiveSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.PASSIVE_SKILL);
+        onSkillAnim = true;
         OnStartSkillAnim.Invoke();
     }
     private void WeaponSkillAnimation()
     {
         animator.SetTrigger(AnimationKeys.WEAPON_SKILL);
+        onSkillAnim = true;
         OnStartSkillAnim.Invoke();
+    }
+    public void SkillAnimEnd() //Animation Event Method
+    {
+        onSkillAnim = false;
     }
     public void WeaponSkillEvent()
     {
@@ -139,7 +140,11 @@ public class CharacterAnimationController : MonoBehaviour
     #region Helpers
     public bool IsAttacking()
     {
-        return isAttacking;
+        return onAttackingAnim;
+    }
+    public bool IsOnSkillAnim()
+    {
+        return onSkillAnim;
     }
     public bool IsRolling()
     {

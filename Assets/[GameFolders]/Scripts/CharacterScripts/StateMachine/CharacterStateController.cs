@@ -56,7 +56,7 @@ public class CharacterStateController : MonoBehaviour
             return;
         if (AnimController.IsRolling())
             return;
-        Debug.Log(currentState);
+
         currentState.UpdateState(this);
 
         if (currentState == idleState)
@@ -98,7 +98,7 @@ public class CharacterStateController : MonoBehaviour
         }
         else if (currentState == skillState)
         {
-            if (AnimController.GetAnimStatus("Movement")&&CheckMovementInput())
+            if (!AnimController.IsOnSkillAnim())
             {
                 currentState.ExitState(this, idleState);
                 return;
