@@ -27,6 +27,12 @@ public class WeaponController : MonoBehaviour
     }
     public void ChangeWeapon()
     {
+        if (stateController.AnimController.IsAttacking())
+            return;
+        if (stateController.AnimController.IsRolling())
+            return;
+        if (stateController.AnimController.IsOnSkillAnim())
+            return;
         if (usableWeapons[usableWeapons.Count - 1] == currentWeaponType)
             currentWeaponType = usableWeapons[0];
         else

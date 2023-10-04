@@ -39,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseTexture:
-        m_Texture: {fileID: 2800000, guid: 9eea3b9b4b755f64da2c821145616f44, type: 3}
+        m_Texture: {fileID: 2800000, guid: ee95c6682c9bfc84184687afe06f0aaf, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -172,8 +172,8 @@ Material:
     - _HatchingRotation: 0
     - _HatchingSmoothness: 0.1
     - _Metallic: 0
-    - _NoiseScale: 1
-    - _NoiseStrength: 0.1
+    - _NoiseScale: 51.1
+    - _NoiseStrength: 0
     - _OcclusionStrength: 1
     - _OutlineEnabled: 0
     - _OutlineMode: 0
@@ -200,7 +200,7 @@ Material:
     - _StencilComp: 0
     - _StencilRef: 0
     - _StepViaRampTexture: 0
-    - _Strength: 15
+    - _Strength: 47.27
     - _Surface: 0
     - _ToonBlending: 1
     - _ToonEnabled: 0

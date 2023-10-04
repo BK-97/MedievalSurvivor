@@ -12805,7 +12805,7 @@ PrefabInstance:
     - target: {fileID: 7573845881584716887, guid: 43bfcaa7ca93bfc499cc766ae8081079,
         type: 3}
       propertyPath: WaveCounts.Array.data[0]
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43bfcaa7ca93bfc499cc766ae8081079, type: 3}
