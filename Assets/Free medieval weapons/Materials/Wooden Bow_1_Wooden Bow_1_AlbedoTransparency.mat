@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Swords_low_Swords_OH_AlbedoTransparency
+  m_Name: Wooden Bow_1_Wooden Bow_1_AlbedoTransparency
   m_Shader: {fileID: 4800000, guid: 933f24cde1e3f6a41818f56d729421ab, type: 3}
   m_ValidKeywords:
   - _HALFTONESHAPE_DOT
@@ -27,11 +27,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f4025166482b470439bcfe82f6acda5c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 3867c4ffe76f5d24999eb411332f2913, type: 3}
+        m_Texture: {fileID: 2800000, guid: d403c898dda94304f9bab54f777489df, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -75,15 +75,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f4025166482b470439bcfe82f6acda5c, type: 3}
+        m_Texture: {fileID: 2800000, guid: c1cd4fcf97b176d47866429ed3cd472f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 687bd50e938ffb1478645597c5b455e4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6b2f377047964624f9c92c7fcb984fcc, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
-        m_Texture: {fileID: 2800000, guid: a0f247a9b2190024fb019970e583efc7, type: 3}
+        m_Texture: {fileID: 2800000, guid: e6dc8c2439d5af346a7e313ee7851e28, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
