@@ -33,15 +33,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Defend",
-                    "type": "Button",
-                    "id": "a8fea744-6a76-4200-b1dd-b64841a564e0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "WeaponChange",
                     "type": "Button",
                     "id": "464797bd-baf6-4b52-9332-8be896414915",
@@ -162,17 +153,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "30a74282-5e52-47e9-9344-fb79153f9569",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Defend",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

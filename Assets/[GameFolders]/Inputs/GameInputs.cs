@@ -55,15 +55,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Defend"",
-                    ""type"": ""Button"",
-                    ""id"": ""a8fea744-6a76-4200-b1dd-b64841a564e0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""WeaponChange"",
                     ""type"": ""Button"",
                     ""id"": ""464797bd-baf6-4b52-9332-8be896414915"",
@@ -189,17 +180,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""30a74282-5e52-47e9-9344-fb79153f9569"",
-                    ""path"": ""<Mouse>/rightButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Defend"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""5f5975af-7b36-4837-b6d4-5b7b08ef94ca"",
                     ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
@@ -263,7 +243,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Defend = m_Player.FindAction("Defend", throwIfNotFound: true);
         m_Player_WeaponChange = m_Player.FindAction("WeaponChange", throwIfNotFound: true);
         m_Player_PassiveSkill = m_Player.FindAction("PassiveSkill", throwIfNotFound: true);
         m_Player_WeaponSkill = m_Player.FindAction("WeaponSkill", throwIfNotFound: true);
@@ -331,7 +310,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Defend;
     private readonly InputAction m_Player_WeaponChange;
     private readonly InputAction m_Player_PassiveSkill;
     private readonly InputAction m_Player_WeaponSkill;
@@ -344,7 +322,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Defend => m_Wrapper.m_Player_Defend;
         public InputAction @WeaponChange => m_Wrapper.m_Player_WeaponChange;
         public InputAction @PassiveSkill => m_Wrapper.m_Player_PassiveSkill;
         public InputAction @WeaponSkill => m_Wrapper.m_Player_WeaponSkill;
@@ -368,9 +345,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Defend.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
-                @Defend.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
-                @Defend.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDefend;
                 @WeaponChange.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
                 @WeaponChange.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
                 @WeaponChange.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponChange;
@@ -399,9 +373,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @Defend.started += instance.OnDefend;
-                @Defend.performed += instance.OnDefend;
-                @Defend.canceled += instance.OnDefend;
                 @WeaponChange.started += instance.OnWeaponChange;
                 @WeaponChange.performed += instance.OnWeaponChange;
                 @WeaponChange.canceled += instance.OnWeaponChange;
@@ -426,7 +397,6 @@ public partial class @GameInputs : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnDefend(InputAction.CallbackContext context);
         void OnWeaponChange(InputAction.CallbackContext context);
         void OnPassiveSkill(InputAction.CallbackContext context);
         void OnWeaponSkill(InputAction.CallbackContext context);

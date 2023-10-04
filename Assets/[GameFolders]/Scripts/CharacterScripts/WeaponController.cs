@@ -4,16 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 public class WeaponController : MonoBehaviour
 {
-    public WeaponHolder weaponHolder;
-    private int currentWeaponIndex=-1;
+    public WeaponHolder leftHandHolder;
+    public WeaponHolder rightHandHolder;
     private CharacterStateController stateController;
-
+    public List<WeaponTypes> usableWeapons;
+    private WeaponTypes currentWeaponType;
     public static UnityEvent OnWeaponChange = new UnityEvent();
 
     private void Start()
     {
         stateController = GetComponent<CharacterStateController>();
-        ChangeWeapon();
+        currentWeaponType = usableWeapons[0];
+        SetWeapon();
     }
     private void OnEnable()
     {
@@ -25,27 +27,37 @@ public class WeaponController : MonoBehaviour
     }
     public void ChangeWeapon()
     {
-        currentWeaponIndex++;
+        if (usableWeapons[usableWeapons.Count - 1] == currentWeaponType)
+            currentWeaponType = usableWeapons[0];
+        else
+        {
+            int currentIndex = (int)currentWeaponType;
+            currentIndex++;
+            currentWeaponType = usableWeapons[currentIndex];
+        }
+        SetWeapon();
+    }
+    private void SetWeapon()
+    {
 
-        if (weaponHolder.Weapons.Count == currentWeaponIndex)
-            currentWeaponIndex = 0;
-
-        weaponHolder.WeaponChange(currentWeaponIndex);
-        stateController.AnimController.SetWeaponIndex(currentWeaponIndex);
+        leftHandHolder.WeaponChange((int)currentWeaponType);
+        rightHandHolder.WeaponChange((int)currentWeaponType);
+        stateController.AnimController.SetWeaponIndex((int)currentWeaponType);
 
         SetDamage();
-
     }
     public bool CheckForContact()
     {
-        return weaponHolder.currentWeapon.weaponTrigger.IsContacted();
+        return leftHandHolder.currentWeapon.weaponTrigger.IsContacted();
     }
     public void SetDamage()
     {
-        stateController.AttackController.SetAttackData(weaponHolder.GetCurrentWeaponDamage());
+        float totalDamage = 0;
+        totalDamage += leftHandHolder.GetCurrentWeaponDamage() + rightHandHolder.GetCurrentWeaponDamage();
+        stateController.AttackController.SetAttackData(totalDamage);
     }
     public IDamagable GetTriggeredDamagable()
     {
-        return weaponHolder.currentWeapon.weaponTrigger.GetContacted();
+        return rightHandHolder.currentWeapon.weaponTrigger.GetContacted();
     }
 }

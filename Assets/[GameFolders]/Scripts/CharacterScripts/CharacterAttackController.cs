@@ -47,7 +47,7 @@ public class CharacterAttackController : MonoBehaviour
     }
     public void AttackMoment()
     {
-        WeaponController.weaponHolder.currentWeapon.TrailPlay();
+        WeaponController.rightHandHolder.currentWeapon.TrailPlay();
         if (RaycastCheck() != null)
         {
             GiveDamage(RaycastCheck(), currentDamage);
