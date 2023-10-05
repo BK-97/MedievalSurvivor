@@ -1,12 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 public class ObjectPoolManager : Singleton<ObjectPoolManager>
 {
+    #region Params
     public List<PoolObjectInfo> PoolObjects;
-
+    #endregion
+    #region StatickMethods
     public static List<PooledObjectInfo> ObjectPools = new List<PooledObjectInfo>();
     public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation)
     {
@@ -47,6 +48,8 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             pool.InactiveObjects.Add(obj);
         }
     }
+    #endregion
+    #region Helper
     public GameObject GetObjectFromName(string getName)
     {
         var matchingPair = PoolObjects.FirstOrDefault(pair => pair.name == getName);
@@ -59,6 +62,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             return null;
         }
     }
+    #endregion
 }
 public class PooledObjectInfo
 {
