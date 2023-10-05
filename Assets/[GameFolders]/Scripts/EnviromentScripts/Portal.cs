@@ -10,11 +10,11 @@ public class Portal : MonoBehaviour,IInteractable
     public bool canBeInteract { get; private set; }
     private void OnEnable()
     {
-        Spawner.OnWaveEnd.AddListener(PortalOpen);
+        Spawner.OnAllWavesEnd.AddListener(PortalOpen);
     }
     private void OnDisable()
     {
-        Spawner.OnWaveEnd.RemoveListener(PortalOpen);
+        Spawner.OnAllWavesEnd.RemoveListener(PortalOpen);
     }
     private void PortalOpen()
     {

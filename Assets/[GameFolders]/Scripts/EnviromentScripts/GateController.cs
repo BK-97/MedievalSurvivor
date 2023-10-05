@@ -9,11 +9,11 @@ public class GateController : MonoBehaviour
     const float GATE_OPEN_TIME=0.5f;
     private void OnEnable()
     {
-        Spawner.OnWaveEnd.AddListener(GateOpen);
+        Spawner.OnAllWavesEnd.AddListener(GateOpen);
     }
     private void OnDisable()
     {
-        Spawner.OnWaveEnd.RemoveListener(GateOpen);
+        Spawner.OnAllWavesEnd.RemoveListener(GateOpen);
 
     }
     private void GateOpen()

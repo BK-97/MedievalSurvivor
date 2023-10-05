@@ -33,6 +33,28 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
         }
         return spawnableObj;
     }
+    public static GameObject SpawnObject(GameObject objectToSpawn)
+    {
+        PooledObjectInfo pool = ObjectPools.Find(p => p.LookupString == objectToSpawn.name);
+        if (pool == null)
+        {
+            pool = new PooledObjectInfo() { LookupString = objectToSpawn.name };
+            ObjectPools.Add(pool);
+        }
+
+        GameObject spawnableObj = pool.InactiveObjects.FirstOrDefault();
+
+        if (spawnableObj == null)
+        {
+            spawnableObj = Instantiate(objectToSpawn);
+        }
+        else
+        {
+            pool.InactiveObjects.Remove(spawnableObj);
+            spawnableObj.SetActive(true);
+        }
+        return spawnableObj;
+    }
     public static void ReturnObjectToPool(GameObject obj)
     {
         string goName = obj.name.Substring(0, obj.name.Length - 7);
