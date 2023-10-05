@@ -48,6 +48,7 @@ public class MultiGameObjectPool : Singleton<MultiGameObjectPool>
     {
         Destroy(obj);
     }
+    #region InstantiateMethods
     public GameObject GetObject(string prefabName) //USE THIS METHOD
     {
         GameObject prefab;
@@ -70,7 +71,7 @@ public class MultiGameObjectPool : Singleton<MultiGameObjectPool>
             return null;
         }
     }
-    public GameObject GetObject(string prefabName,Vector3 pos) //USE THIS METHOD
+    public GameObject GetObject(string prefabName, Vector3 pos) //USE THIS METHOD
     {
         GameObject prefab;
         if (prefabsDict.TryGetValue(prefabName, out prefab))
@@ -78,7 +79,9 @@ public class MultiGameObjectPool : Singleton<MultiGameObjectPool>
             ObjectPool<GameObject> objectPool;
             if (objectPools.TryGetValue(prefab, out objectPool))
             {
-                return objectPool.Get();
+                GameObject obj = objectPool.Get();
+                obj.transform.position = pos;
+                return obj;
             }
             else
             {
@@ -92,26 +95,41 @@ public class MultiGameObjectPool : Singleton<MultiGameObjectPool>
             return null;
         }
     }
-    public GameObject GetObject(GameObject prefab)
+    public GameObject GetObject(string prefabName, Vector3 pos, Quaternion rot) //USE THIS METHOD
     {
-        ObjectPool<GameObject> objectPool;
-        if (objectPools.TryGetValue(prefab, out objectPool))
+        GameObject prefab;
+        if (prefabsDict.TryGetValue(prefabName, out prefab))
         {
-            return objectPool.Get();
+            ObjectPool<GameObject> objectPool;
+            if (objectPools.TryGetValue(prefab, out objectPool))
+            {
+                GameObject obj = objectPool.Get();
+                obj.transform.position = pos;
+                obj.transform.rotation = rot;
+                return obj;
+            }
+            else
+            {
+                Debug.LogWarning("The requested prefab is not registered in the object pools.");
+                return null;
+            }
         }
         else
         {
-            Debug.LogWarning("The requested prefab is not registered in the object pools.");
+            Debug.LogWarning("The requested prefab is not registered in the MultiGameObjectPool.");
             return null;
         }
     }
+    #endregion
 
     public void ReturnObject(GameObject obj)
     {
-        GameObject prefab = obj.GetComponent<GameObject>();
+        GameObject prefab = obj;
+
         if (prefab != null)
         {
             ObjectPool<GameObject> objectPool;
+
             if (objectPools.TryGetValue(prefab, out objectPool))
             {
                 objectPool.Release(obj);
