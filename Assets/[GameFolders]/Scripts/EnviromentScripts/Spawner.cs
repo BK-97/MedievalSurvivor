@@ -4,23 +4,24 @@ using UnityEngine;
 using UnityEngine.Events;
 public class Spawner : MonoBehaviour
 {
+    #region Params
     public List<int> WaveCounts;
     public float spawnDelay;
     public Transform player;
+    private int currentWaveIndex;
 
+    public Transform topTransform;
+    public Transform bottomTransform;
+    public Transform leftTransform;
+    public Transform rightTransform;
+
+    private List<GameObject> spawnedCharacters = new List<GameObject>();
+    #endregion
+    #region Events
     public static UnityEvent OnSpawnerStart = new UnityEvent();
     public static UnityEvent OnWaveEnd = new UnityEvent();
-    private int currentWaveIndex;
-    private List<GameObject> spawnedCharacters = new List<GameObject>();
-    [HideInInspector]
-    public List<Transform> spawnPosses;
-    private void Awake()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            spawnPosses.Add(transform.GetChild(i));
-        }
-    }
+    #endregion
+    #region MonoBehaviours
     private void OnEnable()
     {
         LevelManager.Instance.OnLevelStart.AddListener(Spawn);
@@ -40,6 +41,8 @@ public class Spawner : MonoBehaviour
         if (CheckAllEnemiesDie())
             WaveAllDie();
     }
+    #endregion
+    #region MyMethods
     void Spawn()
     {
         if (currentWaveIndex == WaveCounts.Count)
@@ -80,22 +83,13 @@ public class Spawner : MonoBehaviour
     }
     private Vector3 RandomPosCalculator()
     {
-        int randomIndex = Random.Range(0, spawnPosses.Count - 1);
-        return spawnPosses[randomIndex].position;
-        /*
-        Vector3 cameraPosition = Camera.main.transform.position;
+        float maxX = rightTransform.position.x;
+        float minX = leftTransform.position.x;
+        float maxZ = topTransform.position.z;
+        float minZ = bottomTransform.position.z;
 
-        float horizontalFOV = Camera.main.fieldOfView;
-
-        float randomAngle = Random.Range(0f, 360f);
-        float randomDistance = Random.Range(10f, 20f);
-
-        float x = cameraPosition.x + Mathf.Cos(randomAngle) * randomDistance;
-        float z = cameraPosition.z + Mathf.Sin(randomAngle) * randomDistance;
-
-        float y = 0f;
-
-        return new Vector3(x, y, z);
-        */
+        Vector3 randomPos = new Vector3(Random.Range(minX,maxX),0,Random.Range(minZ,maxZ));
+        return randomPos;
     }
+    #endregion
 }
