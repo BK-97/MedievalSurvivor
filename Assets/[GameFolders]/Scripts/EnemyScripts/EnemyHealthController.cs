@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthController : MonoBehaviour,IDamagable
+public class EnemyHealthController : MonoBehaviour, IDamagable
 {
     private EnemyAnimationController animationController;
     private float currentHealth;
@@ -27,12 +27,13 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
         fakeBar.enabled = false;
         var go = MultiGameObjectPool.Instance.GetObject("SkeletonDeath");
         go.transform.position = transform.position;
-        Destroy(gameObject);
+        MultiGameObjectPool.Instance.ReturnObject(gameObject);
     }
-
     public void SetHealth(float health)
     {
         currentHealth = health;
+        if (healthBar == null)
+            return;
         healthBar.maxValue = health;
         healthBar.value = health;
         healthBar.enabled = true;
@@ -55,6 +56,8 @@ public class EnemyHealthController : MonoBehaviour,IDamagable
         {
             animationController.HitAnimation();
             currentHealth -= damage;
+            if (healthBar == null)
+                return;
             healthBar.value = currentHealth;
             StartCoroutine(FakeBarWaitCO());
         }

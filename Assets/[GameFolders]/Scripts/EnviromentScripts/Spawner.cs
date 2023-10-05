@@ -51,7 +51,8 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            var go = Instantiate(prefab, RandomPosCalculator(), Quaternion.identity);
+            //var go = Instantiate(prefab, RandomPosCalculator(), Quaternion.identity);
+            var go = MultiGameObjectPool.Instance.GetObject("Skeleton",RandomPosCalculator(),Quaternion.identity);
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
