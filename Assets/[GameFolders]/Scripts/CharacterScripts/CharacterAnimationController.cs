@@ -121,7 +121,7 @@ public class CharacterAnimationController : MonoBehaviour
     public void WeaponSkillEvent()
     {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, skillController.weaponSkillRadius, LayerMask.GetMask("Enemy"));
-        var go = MultiGameObjectPool.Instance.GetObject("RockHitGround");
+        var go = ObjectPoolManager.SpawnObject(ObjectPoolManager.Instance.GetObjectFromName("RockHitGround"),transform.position,transform.rotation);
         go.transform.position = transform.position;
         foreach (Collider collider in hitColliders)
         {

@@ -3,6 +3,6 @@ public class FXBackToPool : MonoBehaviour
 {
     private void OnDisable()
     {
-        //MultiGameObjectPool.Instance.ReturnObject(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

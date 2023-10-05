@@ -25,9 +25,8 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
         fakeBar.value = 0;
         healthBar.enabled = false;
         fakeBar.enabled = false;
-        var go = MultiGameObjectPool.Instance.GetObject("SkeletonDeath");
-        go.transform.position = transform.position;
-        MultiGameObjectPool.Instance.ReturnObject(gameObject);
+        ObjectPoolManager.SpawnObject(ObjectPoolManager.Instance.GetObjectFromName("SkeletonDeathFX"),transform.position,Quaternion.identity);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
     public void SetHealth(float health)
     {

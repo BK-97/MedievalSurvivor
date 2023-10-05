@@ -11,7 +11,6 @@ public class Spawner : MonoBehaviour
     public static UnityEvent OnSpawnerStart = new UnityEvent();
     public static UnityEvent OnWaveEnd = new UnityEvent();
     private int currentWaveIndex;
-    public GameObject prefab;
     private List<GameObject> spawnedCharacters = new List<GameObject>();
     [HideInInspector]
     public List<Transform> spawnPosses;
@@ -51,8 +50,7 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < spawnCount; i++)
         {
-            //var go = Instantiate(prefab, RandomPosCalculator(), Quaternion.identity);
-            var go = MultiGameObjectPool.Instance.GetObject("Skeleton",RandomPosCalculator(),Quaternion.identity);
+            var go = ObjectPoolManager.SpawnObject(ObjectPoolManager.Instance.GetObjectFromName("Skeleton"), RandomPosCalculator(),Quaternion.identity);
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
