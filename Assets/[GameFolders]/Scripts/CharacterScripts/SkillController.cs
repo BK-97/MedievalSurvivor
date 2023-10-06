@@ -8,6 +8,7 @@ public class SkillController : MonoBehaviour
     public static UnityEvent OnPassiveSkillUse = new UnityEvent();
     public static UnityEvent OnPassiveSkillEnd = new UnityEvent();
     public static UnityEvent OnWeaponSkillUse = new UnityEvent();
+    public static FloatEvent OnSendCooldownInfo = new FloatEvent();
     public GameObject passiveVFX;
 
     private const float PASSIVE_TIME=10;
@@ -41,6 +42,7 @@ public class SkillController : MonoBehaviour
         Invoke("PassiveSkillUsable", PASSIVE_COOLDOWN);
         ObjectPoolManager.SpawnObject(ObjectPoolManager.Instance.GetObjectFromName("FSkillFX"), transform.position, Quaternion.identity);
         OnPassiveSkillUse.Invoke();
+        OnSendCooldownInfo.Invoke(PASSIVE_COOLDOWN);
     }
     private void UseWeaponSkill()
     {
@@ -52,6 +54,7 @@ public class SkillController : MonoBehaviour
         canUseWeaponSkill = false;
         Invoke("WeaponSkillUsable", WEAPON_SKILL_COOLDOWN);
         OnWeaponSkillUse.Invoke();
+        OnSendCooldownInfo.Invoke(WEAPON_SKILL_COOLDOWN);
     }
     private void PassiveSkillOff()
     {

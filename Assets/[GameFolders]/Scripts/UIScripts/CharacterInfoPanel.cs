@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GamePanel : PanelBase
+public class CharacterInfoPanel : PanelBase
 {
     private void OnEnable()
     {
