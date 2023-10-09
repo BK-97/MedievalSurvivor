@@ -30,10 +30,11 @@ public class CharacterStateController : MonoBehaviour
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     #endregion
-    private void Start()
+    private void Awake()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
         MovementController.Initialize(characterData.MoveSpeed);
+        AttackController.SetAttackData(characterData.BaseDamage, characterData.AttackRange);
         idleState.EnterState(this);
         currentState = idleState;
     }
@@ -124,7 +125,6 @@ public class CharacterStateController : MonoBehaviour
     {
         if (MovementController.canRollOver&&!AnimController.IsRolling()&&!AnimController.IsAttacking())
         {
-            Debug.Log("RollOver");
             MovementController.RollOver();
             AnimController.RollOver();
         }

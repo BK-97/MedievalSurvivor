@@ -5,15 +5,17 @@ using UnityEngine;
 public class CharacterAttackController : MonoBehaviour
 {
     float currentDamage;
+    float currentRange;
     public Transform muzzle;
     public LayerMask enemyLayer;
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     private WeaponController weaponController;
     public WeaponController WeaponController { get { return (weaponController == null) ? weaponController = GetComponent<WeaponController>() : weaponController; } }
-    public void SetAttackData(float damage)
+    public void SetAttackData(float damage,float range)
     {
         currentDamage = damage;
+        currentRange = range;
     }
     public void Attack(bool status)
     {

@@ -17,8 +17,8 @@ public class WeaponHolder : MonoBehaviour
         currentWeapon = Weapons[index];
         currentWeapon.Initalize();
     }
-    public float GetCurrentWeaponDamage()
+    public WeaponData GetCurrentWeaponData()
     {
-        return currentWeapon.weaponData.WeaponDamage;
+        return currentWeapon.weaponData;
     }
 }

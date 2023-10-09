@@ -9,9 +9,11 @@ public class EnemyAttackController : MonoBehaviour
     public EnemyAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<EnemyAnimationController>() : animController; } }
     private GameObject enemyTarget;
     private bool canAttack;
-    public void SetAttackData(float attackDamage)
+    private float attackRange;
+    public void SetAttackData(float attackDamage,float range)
     {
         currentDamage = attackDamage;
+        attackRange = range;
         canAttack = true;
     }
     public void Attack(bool status)
@@ -47,6 +49,6 @@ public class EnemyAttackController : MonoBehaviour
         if (enemyTarget == null)
             return false;
         float distance = Vector3.Distance(transform.position, enemyTarget.transform.position);
-        return (distance <= 1.1f);
+        return (distance <= attackRange+0.1f);
     }
 }

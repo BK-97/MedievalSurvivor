@@ -9,8 +9,8 @@ public class Spawner : MonoBehaviour
     public float spawnDelay;
     public Transform player;
     private int currentWaveIndex;
-    const float NEXT_WAVE_WAIT_TIME=3f;
-    const float BOSS_WAIT_TIME=3f;
+    const float NEXT_WAVE_WAIT_TIME = 3f;
+    const float BOSS_WAIT_TIME = 3f;
 
     public Transform topTransform;
     public Transform bottomTransform;
@@ -20,11 +20,12 @@ public class Spawner : MonoBehaviour
     public Transform bossSpawnTransform;
 
     public bool canSpawnBoss;
+    [SerializeField]
     private List<GameObject> spawnedCharacters = new List<GameObject>();
     #endregion
     #region Events
     public static UnityEvent OnAllWavesEnd = new UnityEvent();
-    public static UnityEvent OnWaveEnd= new UnityEvent();
+    public static UnityEvent OnWaveEnd = new UnityEvent();
     public static UnityEvent OnBossRound = new UnityEvent();
     #endregion
     #region MonoBehaviours
@@ -52,17 +53,20 @@ public class Spawner : MonoBehaviour
         {
             if (canSpawnBoss)
             {
+                Debug.Log(1);
                 OnBossRound.Invoke();
                 StartCoroutine(WaitForBoss());
             }
             else
             {
+                Debug.Log(2);
                 OnAllWavesEnd.Invoke();
                 StartCoroutine(DirectToPortalCO());
             }
         }
         else
         {
+            Debug.Log(3);
             OnWaveEnd.Invoke();
             StartCoroutine(WaitForNextWave());
         }
@@ -122,6 +126,8 @@ public class Spawner : MonoBehaviour
     }
     IEnumerator WaitForBoss()
     {
+        FeedbackPanel.OnFeedbackOpen.Invoke("WAVE END!");
+        yield return new WaitForSeconds(1);
         FeedbackPanel.OnFeedbackOpen.Invoke("WAIT FOR BOSS!");
         yield return new WaitForSeconds(BOSS_WAIT_TIME);
         FeedbackPanel.OnFeedbackClose.Invoke();
@@ -136,10 +142,10 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < spawnedCharacters.Count; i++)
         {
-            if (spawnedCharacters[i] != null)
+            if (spawnedCharacters[i].activeSelf)
             {
                 allEnemiesDead = false;
-                break; 
+                break;
             }
         }
 
@@ -152,8 +158,18 @@ public class Spawner : MonoBehaviour
         float maxZ = topTransform.position.z;
         float minZ = bottomTransform.position.z;
 
-        Vector3 randomPos = new Vector3(Random.Range(minX,maxX),0,Random.Range(minZ,maxZ));
+        Vector3 randomPos = Vector3.zero;
+        while (true)
+        {
+            randomPos = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
+            float distanceToPlayer =Vector3.Distance(player.position , randomPos);
+            if (distanceToPlayer > 10)
+            {
+                break;
+            }
+        }
         return randomPos;
+
     }
     private Quaternion GetLookPlayerRotation(Vector3 spawnedPos)
     {

@@ -17,7 +17,6 @@ public class EnemyMovementController : MonoBehaviour
     {
         maxSpeed = speed;
         NavMeshAgent.speed = maxSpeed;
-        NavMeshAgent.stoppingDistance = 1;
         canMove = true;
 
     }

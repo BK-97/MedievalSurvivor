@@ -15,5 +15,6 @@ public class CharacterData : ScriptableObject
 
     [Header("Attack")]
     public float BaseDamage;
+    public float AttackRange;
 
 }

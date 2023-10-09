@@ -9,5 +9,6 @@ public class WeaponData : ScriptableObject
     public WeaponTypes WeaponType;
 
     public float WeaponDamage;
+    public float AttackRange;
 
 }

@@ -39,7 +39,7 @@ public class EnemyHealthController : MonoBehaviour, IDamagable
         fakeBar.maxValue = health;
         fakeBar.value = health;
         fakeBar.enabled = true;
-
+        isDead = false;
     }
     IEnumerator FakeBarWaitCO()
     {

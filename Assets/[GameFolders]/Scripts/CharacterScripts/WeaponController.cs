@@ -59,8 +59,9 @@ public class WeaponController : MonoBehaviour
     public void SetDamage()
     {
         float totalDamage = 0;
-        totalDamage += leftHandHolder.GetCurrentWeaponDamage() + rightHandHolder.GetCurrentWeaponDamage();
-        stateController.AttackController.SetAttackData(totalDamage);
+        totalDamage += leftHandHolder.GetCurrentWeaponData().WeaponDamage + rightHandHolder.GetCurrentWeaponData().WeaponDamage;
+        float attackRange = rightHandHolder.GetCurrentWeaponData().AttackRange;
+        stateController.AttackController.SetAttackData(totalDamage, attackRange);
     }
     public IDamagable GetTriggeredDamagable()
     {

@@ -10,7 +10,6 @@ public class HealthBarUI : MonoBehaviour
     private void Start()
     {
         healthBar = GetComponent<Slider>();
-        Debug.Log(chains.name);
         ChainSet(false);
     }
     private void OnEnable()
