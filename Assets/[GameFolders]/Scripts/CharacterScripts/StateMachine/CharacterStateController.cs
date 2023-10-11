@@ -30,7 +30,7 @@ public class CharacterStateController : MonoBehaviour
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     #endregion
-    private void Awake()
+    private void Start()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
         MovementController.Initialize(characterData.MoveSpeed);

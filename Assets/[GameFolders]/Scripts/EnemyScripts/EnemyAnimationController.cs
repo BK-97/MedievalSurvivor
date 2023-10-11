@@ -42,9 +42,9 @@ public class EnemyAnimationController : MonoBehaviour
     {
         AttackController.GiveDamage();
     }
-    public bool CanSwitchState()
+
+    public void BossDie()
     {
-        bool isAttackPlaying = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
-        return isAttackPlaying;
+        animator.SetTrigger(AnimationKeys.DIE);
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.AI;
 public class Spawner : MonoBehaviour
 {
     #region Params
@@ -27,6 +28,7 @@ public class Spawner : MonoBehaviour
     public static UnityEvent OnAllWavesEnd = new UnityEvent();
     public static UnityEvent OnWaveEnd = new UnityEvent();
     public static UnityEvent OnBossRound = new UnityEvent();
+    public static GameObjectEvent OnBossSpawned = new GameObjectEvent();
     #endregion
     #region MonoBehaviours
     private void OnEnable()
@@ -53,20 +55,17 @@ public class Spawner : MonoBehaviour
         {
             if (canSpawnBoss)
             {
-                Debug.Log(1);
                 OnBossRound.Invoke();
                 StartCoroutine(WaitForBoss());
             }
             else
             {
-                Debug.Log(2);
                 OnAllWavesEnd.Invoke();
                 StartCoroutine(DirectToPortalCO());
             }
         }
         else
         {
-            Debug.Log(3);
             OnWaveEnd.Invoke();
             StartCoroutine(WaitForNextWave());
         }
@@ -90,6 +89,7 @@ public class Spawner : MonoBehaviour
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
+            
             yield return new WaitForSeconds(spawnDelay);
         }
     }
@@ -101,6 +101,7 @@ public class Spawner : MonoBehaviour
         go.GetComponent<EnemyStateController>().SetTarget(player);
         go.GetComponent<EnemyStateController>().Initialize();
         spawnedCharacters.Add(go);
+        OnBossSpawned.Invoke(go);
     }
     #endregion
     #region Numerators
@@ -173,7 +174,7 @@ public class Spawner : MonoBehaviour
     }
     private Quaternion GetLookPlayerRotation(Vector3 spawnedPos)
     {
-        Vector3 lookDirection = spawnedPos - player.transform.position;
+        Vector3 lookDirection = player.transform.position-spawnedPos ;
         lookDirection.y = 0;
 
         return Quaternion.LookRotation(lookDirection);

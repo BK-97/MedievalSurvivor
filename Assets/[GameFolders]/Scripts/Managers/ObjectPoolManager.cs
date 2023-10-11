@@ -70,6 +70,7 @@ public class ObjectPoolManager : Singleton<ObjectPoolManager>
             pool.InactiveObjects.Add(obj);
         }
     }
+  
     #endregion
     #region Helper
     public GameObject GetObjectFromName(string getName)

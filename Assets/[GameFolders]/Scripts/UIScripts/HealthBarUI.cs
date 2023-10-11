@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class HealthBarUI : MonoBehaviour
 {
-    private Slider healthBar;
+    public Slider healthBar;
     public GameObject chains;
     private void Start()
     {
-        healthBar = GetComponent<Slider>();
         ChainSet(false);
     }
     private void OnEnable()

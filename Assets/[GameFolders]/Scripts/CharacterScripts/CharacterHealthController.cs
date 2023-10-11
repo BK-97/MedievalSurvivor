@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class CharacterHealthController : MonoBehaviour, IDamagable
 {
+
     private float currentHealth;
     private float _maxHealth;
     bool canTakeDamage;
@@ -14,6 +15,9 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
 
     public void SetHealth(float maxHealth)
     {
+        if (PlayerPrefs.GetFloat(PlayerPrefKeys.CurrentHealth, maxHealth) == 0)
+            PlayerPrefs.SetFloat(PlayerPrefKeys.CurrentHealth, maxHealth);
+
         currentHealth = PlayerPrefs.GetFloat(PlayerPrefKeys.CurrentHealth, maxHealth);
         OnHealthChange.Invoke(currentHealth);
         _maxHealth = maxHealth;
@@ -28,6 +32,7 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
             Die();
         else
         {
+
             currentHealth -= damage;
             PlayerPrefs.SetFloat(PlayerPrefKeys.CurrentHealth, currentHealth);
             OnHealthChange.Invoke(currentHealth);
@@ -35,14 +40,14 @@ public class CharacterHealthController : MonoBehaviour, IDamagable
     }
     private void OnEnable()
     {
-        OnHealthSet.AddListener(SetHealth);
+        CharacterHealthController.OnHealthSet.AddListener(SetHealth);
         
         SkillController.OnPassiveSkillUse.AddListener(() => canTakeDamage = false);
         SkillController.OnPassiveSkillEnd.AddListener(() => canTakeDamage = true);
     }
     private void OnDisable()
     {
-        OnHealthSet.RemoveListener(SetHealth);
+        CharacterHealthController.OnHealthSet.RemoveListener(SetHealth);
 
         SkillController.OnPassiveSkillUse.RemoveListener(() => canTakeDamage = false);
         SkillController.OnPassiveSkillEnd.RemoveListener(() => canTakeDamage = true);

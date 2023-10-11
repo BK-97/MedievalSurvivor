@@ -1979,6 +1979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93394ea148fa52046b3821ce4098300b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 7760183743828552246}
   chains: {fileID: 9194326427479096158}
 --- !u!114 &7760183743828552246
 MonoBehaviour:
