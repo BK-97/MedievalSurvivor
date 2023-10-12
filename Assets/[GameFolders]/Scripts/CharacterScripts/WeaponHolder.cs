@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponHolder : MonoBehaviour
 {
     public List<Weapon> Weapons;
-    [HideInInspector]
+    //[HideInInspector]
     public Weapon currentWeapon;
     
     public void WeaponChange(int index)
@@ -17,8 +17,8 @@ public class WeaponHolder : MonoBehaviour
         currentWeapon = Weapons[index];
         currentWeapon.Initalize();
     }
-    public float GetCurrentWeaponDamage()
+    public WeaponData GetCurrentWeaponData()
     {
-        return currentWeapon.weaponData.WeaponDamage;
+        return currentWeapon.weaponData;
     }
 }

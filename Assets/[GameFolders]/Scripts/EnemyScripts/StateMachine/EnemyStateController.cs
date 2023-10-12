@@ -33,7 +33,7 @@ public class EnemyStateController : MonoBehaviour
         GetComponent<Collider>().enabled = true;
         GetComponent<Rigidbody>().useGravity = true;
         HealthController.SetHealth(characterData.Health);
-        AttackController.SetAttackData(characterData.BaseDamage);
+        AttackController.SetAttackData(characterData.BaseDamage,characterData.AttackRange);
         MovementController.SetSpeed(characterData.MoveSpeed);
 
         idleState.EnterState(this);

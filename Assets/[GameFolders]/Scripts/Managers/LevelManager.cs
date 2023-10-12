@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 public class LevelManager : Singleton<LevelManager>
 {
+    #region Params
     [SerializeField]
     public LevelData LevelData;
 
@@ -34,7 +35,7 @@ public class LevelManager : Singleton<LevelManager>
             PlayerPrefs.SetInt(PlayerPrefKeys.LastLevel, value);
         }
     }
-
+    #endregion
     private void OnEnable()
     {
         GameManager.Instance.OnStageFail.AddListener(ReloadLevel);
@@ -47,17 +48,25 @@ public class LevelManager : Singleton<LevelManager>
         Portal.OnUsePortal.RemoveListener(ChangeMap);
 
     }
-    public void ChangeMap(string nextLevelName)
+    public void ChangeMap()
     {
         FinishLevel();
+
         SceneController.Instance.OnSceneTransitionStart.Invoke();
+
         SceneController.Instance.UnloadScene(CurrentLevel.LoadLevelID);
-        StartCoroutine(WaitForChangeMap(nextLevelName));
+
+        LevelIndex++;
+        if (LevelIndex > LevelData.Levels.Count - 1)
+        {
+            LevelIndex = 0;
+        }
+        StartCoroutine(WaitForChangeMap());
     }
-    IEnumerator WaitForChangeMap(string nextLevelName)
+    IEnumerator WaitForChangeMap()
     {
         yield return new WaitForSeconds(4);
-        LoadThisLevel(GetLevelIndex(nextLevelName));
+        SceneController.Instance.LoadScene(CurrentLevel.LoadLevelID);
     }
     public void ReloadLevel()
     {
@@ -74,18 +83,6 @@ public class LevelManager : Singleton<LevelManager>
         FinishLevel();
 
         LevelIndex++;
-        if (LevelIndex > LevelData.Levels.Count - 1)
-        {
-            LevelIndex = 0;
-        }
-
-        SceneController.Instance.LoadScene(CurrentLevel.LoadLevelID);
-    }
-    public void LoadThisLevel(int newLevelIndex)
-    {
-        FinishLevel();
-
-        LevelIndex= newLevelIndex;
         if (LevelIndex > LevelData.Levels.Count - 1)
         {
             LevelIndex = 0;
@@ -113,7 +110,16 @@ public class LevelManager : Singleton<LevelManager>
         IsLevelStarted = true;
         OnLevelStart.Invoke();
     }
-
+    private void Update()
+    {
+        if (GameManager.Instance.IsGameStarted && !IsLevelStarted)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                StartLevel();
+            }
+        }
+    }
     public void FinishLevel()
     {
         if (!IsLevelStarted)

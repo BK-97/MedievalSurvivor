@@ -497,7 +497,6 @@ GameObject:
   - component: {fileID: 539221640002656983}
   - component: {fileID: 3954881811689172970}
   - component: {fileID: 6790817007368756115}
-  - component: {fileID: 2698619007006070740}
   - component: {fileID: 5827759154731727985}
   - component: {fileID: 8918949678501525756}
   m_Layer: 3
@@ -606,8 +605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff1c2148137650428ac1fed1e06bdf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canRollOver: 0
   Indicator: {fileID: 7251614515521372818}
+  canRollOver: 0
 --- !u!114 &539221640002656983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,20 +649,6 @@ MonoBehaviour:
   leftHandHolder: {fileID: 4645730091289416073}
   rightHandHolder: {fileID: 6752030586248568572}
   usableWeapons: 0000000001000000
---- !u!114 &2698619007006070740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1087630448012100305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fc6a23b8ec46fc4591b95ccfb9fa71c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  passiveVFX: {fileID: 1696505717691682866}
-  weaponSkillRadius: 10
 --- !u!136 &5827759154731727985
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -688,7 +673,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 100
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 5
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
@@ -1033,7 +1018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8903020807174762427
 Transform:
   m_ObjectHideFlags: 0

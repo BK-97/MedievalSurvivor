@@ -5,15 +5,12 @@ using UnityEngine;
 public class EnemyAnimationController : MonoBehaviour
 {
     #region Params
-    [HideInInspector]
-    public Animator animator;
+    private Animator _animator;
+    public Animator animator { get { return (_animator == null) ? _animator = GetComponent<Animator>() : _animator; } }
     private EnemyAttackController attackController;
     public EnemyAttackController AttackController { get { return (attackController == null) ? attackController = GetComponent<EnemyAttackController>() : attackController; } }
     #endregion
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
+    #region Methods
     public void SetSpeed(float currentSpeed, float maxSpeed)
     {
         float normalizedSpeed = currentSpeed / maxSpeed;
@@ -32,9 +29,11 @@ public class EnemyAnimationController : MonoBehaviour
     }
     public void CancelAttackAnimation()
     {
-        if (animator.GetBool(AnimationKeys.ATTACK_BOOL))
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animator.SetTrigger(AnimationKeys.CANCEL_ATTACK);
+
             animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
         }
     }
@@ -42,9 +41,9 @@ public class EnemyAnimationController : MonoBehaviour
     {
         AttackController.GiveDamage();
     }
-    public bool CanSwitchState()
+    public void BossDie()
     {
-        bool isAttackPlaying = animator.GetCurrentAnimatorStateInfo(0).IsName("Attack");
-        return isAttackPlaying;
+        animator.SetTrigger(AnimationKeys.DIE);
     }
+    #endregion
 }

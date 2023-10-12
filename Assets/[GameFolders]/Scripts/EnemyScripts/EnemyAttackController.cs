@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class EnemyAttackController : MonoBehaviour
 {
+    #region Params
     private float currentDamage;
+    private float attackRange;
+
+    private GameObject enemyTarget;
+
+    private bool canAttack;
+
     private EnemyAnimationController animController;
     public EnemyAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<EnemyAnimationController>() : animController; } }
-    private GameObject enemyTarget;
-    private bool canAttack;
-    public void SetAttackData(float attackDamage)
-    {
-        currentDamage = attackDamage;
-        canAttack = true;
-    }
+    #endregion
+    #region AttackMethods
     public void Attack(bool status)
     {
         if (!canAttack)
@@ -38,15 +40,27 @@ public class EnemyAttackController : MonoBehaviour
     {
         WaitAfterAttackCO(0.5f);
     }
-    public void SetTarget(GameObject target)
-    {
-        enemyTarget = target;
-    }
+
     public bool IsEnemyInRange()
     {
         if (enemyTarget == null)
             return false;
         float distance = Vector3.Distance(transform.position, enemyTarget.transform.position);
-        return (distance <= 1.1f);
+        return (distance <= attackRange + 0.1f);
     }
+    #endregion
+    #region GetSet
+    public void SetAttackData(float attackDamage, float range)
+    {
+        currentDamage = attackDamage;
+        attackRange = range;
+        canAttack = true;
+    }
+    public void SetTarget(GameObject target)
+    {
+        enemyTarget = target;
+    }
+
+
+    #endregion
 }

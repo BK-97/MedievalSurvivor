@@ -7,6 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : Singleton<SceneController>
 {
+    #region Params
+    public bool loadingInProgress { get; private set; }
+
+    #endregion
+    #region Events
     [HideInInspector]
     public UnityEvent OnSceneStartedLoading = new UnityEvent();
     [HideInInspector]
@@ -19,8 +24,8 @@ public class SceneController : Singleton<SceneController>
     public SceneEvent OnSceneInfo = new SceneEvent();
     [HideInInspector]
     public UnityEvent OnSceneTransitionStart = new UnityEvent();
-    public bool loadingInProgress { get; private set; }
-
+    #endregion
+    #region Methods
     public void LoadScene(string sceneName)
     {
         if (loadingInProgress)
@@ -72,27 +77,7 @@ public class SceneController : Singleton<SceneController>
         yield return SceneManager.UnloadSceneAsync(scene.buildIndex);
         OnSceneUnLoaded.Invoke();
     }
-
-    public int GetScene(string name)
-    {
-        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
-        {
-            string scene = SceneUtility.GetScenePathByBuildIndex(i);
-            if (scene.Contains(name))
-                return i;
-        }
-        return 2;
-    }
-
-    public Scene GetCurrentScene(string name)
-    {
-        return SceneManager.GetSceneByName(name);
-    }
-
-    public Scene GetCurrentScene(int index)
-    {
-        return SceneManager.GetSceneByBuildIndex(index);
-    }
+    #endregion
 }
 
 public class SceneEvent : UnityEvent<Scene, bool> { }

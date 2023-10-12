@@ -5,27 +5,34 @@ using UnityEngine.Events;
 public class Spawner : MonoBehaviour
 {
     #region Params
+    [Header("Spawner Info")]
     public List<int> WaveCounts;
     public float spawnDelay;
-    public Transform player;
-    private int currentWaveIndex;
-    const float NEXT_WAVE_WAIT_TIME=3f;
-    const float BOSS_WAIT_TIME=3f;
+    public bool canSpawnBoss;
 
+    [Space(10),Header("Target")]
+    public Transform player;
+    [Space(10), Header("Spawn Points")]
     public Transform topTransform;
     public Transform bottomTransform;
     public Transform leftTransform;
     public Transform rightTransform;
-
     public Transform bossSpawnTransform;
 
-    public bool canSpawnBoss;
+    private int currentWaveIndex=0;
+
+    const float NEXT_WAVE_WAIT_TIME = 3f;
+    const float BOSS_WAIT_TIME = 3f;
+
+    bool isBossSpawned;
+
     private List<GameObject> spawnedCharacters = new List<GameObject>();
     #endregion
     #region Events
-    public static UnityEvent OnAllWavesEnd = new UnityEvent();
-    public static UnityEvent OnWaveEnd= new UnityEvent();
+    public static UnityEvent OnAllEnemiesEnd = new UnityEvent();
+    public static UnityEvent OnWaveEnd = new UnityEvent();
     public static UnityEvent OnBossRound = new UnityEvent();
+    public static GameObjectEvent OnBossSpawned = new GameObjectEvent();
     #endregion
     #region MonoBehaviours
     private void OnEnable()
@@ -48,7 +55,13 @@ public class Spawner : MonoBehaviour
     private void WaveAllDie()
     {
         spawnedCharacters.Clear();
-        if (currentWaveIndex == WaveCounts.Count - 1)
+        if (isBossSpawned)
+        {
+            StartCoroutine(DirectToPortalCO());
+            return;
+        }
+        
+        if (currentWaveIndex == WaveCounts.Count)
         {
             if (canSpawnBoss)
             {
@@ -57,7 +70,6 @@ public class Spawner : MonoBehaviour
             }
             else
             {
-                OnAllWavesEnd.Invoke();
                 StartCoroutine(DirectToPortalCO());
             }
         }
@@ -86,17 +98,20 @@ public class Spawner : MonoBehaviour
             go.GetComponent<EnemyStateController>().SetTarget(player);
             go.GetComponent<EnemyStateController>().Initialize();
             spawnedCharacters.Add(go);
+            
             yield return new WaitForSeconds(spawnDelay);
         }
     }
     private void SpawnBoss()
     {
         var go = ObjectPoolManager.SpawnObject(ObjectPoolManager.Instance.GetObjectFromName("Boss"));
-        go.transform.position = RandomPosCalculator();
+        go.transform.position = bossSpawnTransform.position;
         go.transform.rotation = Quaternion.Euler(0, 180, 0);
         go.GetComponent<EnemyStateController>().SetTarget(player);
         go.GetComponent<EnemyStateController>().Initialize();
         spawnedCharacters.Add(go);
+        OnBossSpawned.Invoke(go);
+        isBossSpawned = true;
     }
     #endregion
     #region Numerators
@@ -105,16 +120,13 @@ public class Spawner : MonoBehaviour
         FeedbackPanel.OnFeedbackOpen.Invoke("ALL WAVES END!");
         yield return new WaitForSeconds(1);
         FeedbackPanel.OnFeedbackOpen.Invoke("YOU CAN USE PORTAL NOW!");
+        OnAllEnemiesEnd.Invoke();
         yield return new WaitForSeconds(1);
         FeedbackPanel.OnFeedbackClose.Invoke();
     }
     IEnumerator WaitForNextWave()
     {
-        FeedbackPanel.OnFeedbackOpen.Invoke("WAVE END!");
-        yield return new WaitForSeconds(1);
-        FeedbackPanel.OnFeedbackClose.Invoke();
-
-        FeedbackPanel.OnFeedbackOpen.Invoke("WAIT FOR NEW WAVE!");
+        FeedbackPanel.OnFeedbackOpen.Invoke("NEW WAVE IS COMING!");
         yield return new WaitForSeconds(NEXT_WAVE_WAIT_TIME);
         FeedbackPanel.OnFeedbackClose.Invoke();
 
@@ -122,7 +134,7 @@ public class Spawner : MonoBehaviour
     }
     IEnumerator WaitForBoss()
     {
-        FeedbackPanel.OnFeedbackOpen.Invoke("WAIT FOR BOSS!");
+        FeedbackPanel.OnFeedbackOpen.Invoke("WAVE END! BOSS IS COMING!");
         yield return new WaitForSeconds(BOSS_WAIT_TIME);
         FeedbackPanel.OnFeedbackClose.Invoke();
 
@@ -136,10 +148,10 @@ public class Spawner : MonoBehaviour
 
         for (int i = 0; i < spawnedCharacters.Count; i++)
         {
-            if (spawnedCharacters[i] != null)
+            if (spawnedCharacters[i].activeSelf)
             {
                 allEnemiesDead = false;
-                break; 
+                break;
             }
         }
 
@@ -152,12 +164,22 @@ public class Spawner : MonoBehaviour
         float maxZ = topTransform.position.z;
         float minZ = bottomTransform.position.z;
 
-        Vector3 randomPos = new Vector3(Random.Range(minX,maxX),0,Random.Range(minZ,maxZ));
+        Vector3 randomPos = Vector3.zero;
+        while (true)
+        {
+            randomPos = new Vector3(Random.Range(minX, maxX), 0, Random.Range(minZ, maxZ));
+            float distanceToPlayer =Vector3.Distance(player.position , randomPos);
+            if (distanceToPlayer > 10)
+            {
+                break;
+            }
+        }
         return randomPos;
+
     }
     private Quaternion GetLookPlayerRotation(Vector3 spawnedPos)
     {
-        Vector3 lookDirection = spawnedPos - player.transform.position;
+        Vector3 lookDirection = player.transform.position-spawnedPos ;
         lookDirection.y = 0;
 
         return Quaternion.LookRotation(lookDirection);

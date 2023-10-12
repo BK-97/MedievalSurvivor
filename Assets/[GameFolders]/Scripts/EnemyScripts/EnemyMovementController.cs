@@ -6,21 +6,20 @@ using DG.Tweening;
 
 public class EnemyMovementController : MonoBehaviour
 {
+    #region Params
     private float maxSpeed;
     
     private Transform targetTransform;
+
     private Vector3 targetPos;
+
     bool canMove=false;
+    bool isBackStepping;
+
     private NavMeshAgent navMeshAgent;
     public NavMeshAgent NavMeshAgent { get { return (navMeshAgent == null) ? navMeshAgent = GetComponent<NavMeshAgent>() : navMeshAgent; } }
-    public void SetSpeed(float speed)
-    {
-        maxSpeed = speed;
-        NavMeshAgent.speed = maxSpeed;
-        NavMeshAgent.stoppingDistance = 1;
-        canMove = true;
-
-    }
+    #endregion
+    #region MoveMethods
     public void Move()
     {
         if (!canMove)
@@ -52,18 +51,13 @@ public class EnemyMovementController : MonoBehaviour
         if(NavMeshAgent.enabled)
             NavMeshAgent.SetDestination(transform.position);
     }
-    public void SetTargetTransform(Transform target)
-    {
-        targetTransform = target;
-    }
-    bool isBackStepping;
+
     public void BackStep()
     {
         if (isBackStepping)
             return;
         isBackStepping = true;
-        
-        //NavMeshAgent.enabled = false;
+
         Vector3 backStepPos = transform.position - transform.forward * 0.5f;
         transform.DOMove(backStepPos, 0.1f).OnComplete(BackStepEnd);
     }
@@ -81,8 +75,22 @@ public class EnemyMovementController : MonoBehaviour
         else
             return false;
     }
+    #endregion
+    #region GetSetMethods
+    public void SetSpeed(float speed)
+    {
+        maxSpeed = speed;
+        NavMeshAgent.speed = maxSpeed;
+        canMove = true;
+
+    }
+    public void SetTargetTransform(Transform target)
+    {
+        targetTransform = target;
+    }
     public float GetCurrentSpeed()
     {
         return NavMeshAgent.velocity.magnitude;
     }
+    #endregion
 }

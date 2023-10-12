@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class CharacterAttackController : MonoBehaviour
 {
+    #region Params
     float currentDamage;
+    float currentRange;
+
     public Transform muzzle;
     public LayerMask enemyLayer;
+
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     private WeaponController weaponController;
     public WeaponController WeaponController { get { return (weaponController == null) ? weaponController = GetComponent<WeaponController>() : weaponController; } }
-    public void SetAttackData(float damage)
-    {
-        currentDamage = damage;
-    }
+    #endregion
+    #region AttackMethods
     public void Attack(bool status)
     {
         Vector3 attackDirection = InputManager.Instance.GetMouseWorldPos() - transform.position;
@@ -68,7 +70,7 @@ public class CharacterAttackController : MonoBehaviour
             rayDirection = startRotation * rayDirection;
 
             RaycastHit hit;
-            if (Physics.Raycast(rayStartPoint, rayDirection, out hit, 2, enemyLayer))
+            if (Physics.Raycast(rayStartPoint, rayDirection, out hit, currentRange, enemyLayer))
             {
                 if (hit.collider.gameObject.GetComponent<IDamagable>() != null)
                     hitObjects.Add(hit.collider.gameObject);
@@ -90,4 +92,18 @@ public class CharacterAttackController : MonoBehaviour
         }
         return closestObject;
     }
+    #endregion
+    #region GetSetMethods
+    public float GetCurrentDamage()
+    {
+        return currentDamage;
+    }
+    public void SetAttackData(float damage, float range)
+    {
+        currentDamage = damage;
+        currentRange = range;
+    }
+    #endregion
+
+    
 }

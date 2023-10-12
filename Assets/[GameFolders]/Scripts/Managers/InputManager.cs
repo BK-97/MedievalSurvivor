@@ -62,14 +62,7 @@ public class InputManager : Singleton<InputManager>
         input.Player.RollOver.performed -= ctx => OnRollOverInput.Invoke();
 
     }
-    private void Update()
-    {
-        if(GameManager.Instance.IsGameStarted&&!LevelManager.Instance.IsLevelStarted)
-        {
-            if (Input.anyKeyDown)
-                LevelManager.Instance.StartLevel();
-        }
-    }
+
     #endregion
     #region SetMethods
     private void OnMovementPerformed(InputAction.CallbackContext value)

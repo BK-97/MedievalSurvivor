@@ -14,16 +14,18 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         stateController = GetComponent<CharacterStateController>();
-        currentWeaponType = usableWeapons[0];
-        SetWeapon();
     }
+
     private void OnEnable()
     {
         OnWeaponChange.AddListener(ChangeWeapon);
+        LevelManager.Instance.OnLevelStart.AddListener(SetWeapon);
     }
     private void OnDisable()
     {
         OnWeaponChange.RemoveListener(ChangeWeapon);
+        LevelManager.Instance.OnLevelStart.RemoveListener(SetWeapon);
+
     }
     public void ChangeWeapon()
     {
@@ -45,7 +47,6 @@ public class WeaponController : MonoBehaviour
     }
     private void SetWeapon()
     {
-
         leftHandHolder.WeaponChange((int)currentWeaponType);
         rightHandHolder.WeaponChange((int)currentWeaponType);
         stateController.AnimController.SetWeaponIndex((int)currentWeaponType);
@@ -59,8 +60,9 @@ public class WeaponController : MonoBehaviour
     public void SetDamage()
     {
         float totalDamage = 0;
-        totalDamage += leftHandHolder.GetCurrentWeaponDamage() + rightHandHolder.GetCurrentWeaponDamage();
-        stateController.AttackController.SetAttackData(totalDamage);
+        totalDamage += leftHandHolder.GetCurrentWeaponData().WeaponDamage + rightHandHolder.GetCurrentWeaponData().WeaponDamage;
+        float attackRange = rightHandHolder.GetCurrentWeaponData().AttackRange;
+        stateController.AttackController.SetAttackData(totalDamage, attackRange);
     }
     public IDamagable GetTriggeredDamagable()
     {

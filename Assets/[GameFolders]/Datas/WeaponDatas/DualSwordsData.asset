@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponType: 1
   WeaponDamage: 5
+  AttackRange: 1

@@ -21,6 +21,7 @@ public class GameConfig
 }
 public class GameManager : Singleton<GameManager>
 {
+    #region Events
     [HideInInspector]
     public UnityEvent OnGameStart = new UnityEvent();
     [HideInInspector]
@@ -29,14 +30,15 @@ public class GameManager : Singleton<GameManager>
     public UnityEvent OnStageSuccess = new UnityEvent();
     [HideInInspector]
     public UnityEvent OnStageFail = new UnityEvent();
-
+    #endregion
+    #region Params
     private bool isGameStarted;
     public bool IsGameStarted { get { return isGameStarted; } set { isGameStarted = value; } }
 
     private bool isStageCompleted;
     public bool IsStageCompleted { get { return isStageCompleted; } set { isStageCompleted = value; } }
-
-
+    #endregion
+    #region Mono
     private void OnEnable()
     {
         SceneController.Instance.OnSceneLoaded.AddListener(() => IsStageCompleted = false);
@@ -46,6 +48,8 @@ public class GameManager : Singleton<GameManager>
     {
         SceneController.Instance.OnSceneLoaded.RemoveListener(() => IsStageCompleted = false);
     }
+    #endregion
+    #region Methods
     public void StartGame()
     {
         if (isGameStarted)
@@ -89,7 +93,6 @@ public class GameManager : Singleton<GameManager>
             LevelManager.Instance.LoadNextLevel();
         else
             LevelManager.Instance.ReloadLevel();
-
-
     }
+    #endregion
 }
