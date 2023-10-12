@@ -5,31 +5,26 @@ using UnityEngine.Events;
 
 public class SkillController : MonoBehaviour
 {
+    #region Events
     public static UnityEvent OnPassiveSkillUse = new UnityEvent();
     public static UnityEvent OnPassiveSkillEnd = new UnityEvent();
     public static UnityEvent OnWeaponSkillUse = new UnityEvent();
     public static FloatEvent OnSendCooldownInfo = new FloatEvent();
+    #endregion
+    #region Params
     public GameObject passiveVFX;
 
-    private const float PASSIVE_TIME=10;
-    private const float PASSIVE_COOLDOWN =30;
-    private const float WEAPON_SKILL_COOLDOWN =30;
+    private const float PASSIVE_TIME = 10;
+    private const float PASSIVE_COOLDOWN = 30;
+    private const float WEAPON_SKILL_COOLDOWN = 30;
     [HideInInspector]
-    public float weaponSkillRadius = 10;
-    bool canUsePassive=true;
-    bool canUseWeaponSkill=true;
-    private void OnEnable()
-    {
-        InputManager.OnPassiveSkillInput.AddListener(UsePassiveSkill);
-        InputManager.OnWeaponSkillInput.AddListener(UseWeaponSkill);
-    }
-    private void OnDisable()
-    {
-        InputManager.OnPassiveSkillInput.RemoveListener(UsePassiveSkill);
-        InputManager.OnWeaponSkillInput.RemoveListener(UseWeaponSkill);
+    public float weaponSkillRadius = 5;
+    bool canUsePassive = true;
+    bool canUseWeaponSkill = true;
+    #endregion
+    #region Methods
 
-    }
-    private void UsePassiveSkill()
+    public void UsePassiveSkill()
     {
         if (!LevelManager.Instance.IsLevelStarted)
             return;
@@ -44,7 +39,7 @@ public class SkillController : MonoBehaviour
         OnPassiveSkillUse.Invoke();
         OnSendCooldownInfo.Invoke(PASSIVE_COOLDOWN);
     }
-    private void UseWeaponSkill()
+    public void UseWeaponSkill()
     {
         if (!LevelManager.Instance.IsLevelStarted)
             return;
@@ -69,5 +64,5 @@ public class SkillController : MonoBehaviour
     {
         canUseWeaponSkill = true;
     }
-
+    #endregion
 }

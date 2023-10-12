@@ -837,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12a39170a17f3eb4a8358fd1401ce8d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WaveCounts: 0200000002000000
+  WaveCounts: 050000000500000005000000
   spawnDelay: 1
   player: {fileID: 1256179988}
   topTransform: {fileID: 1534966350}
@@ -845,7 +845,7 @@ MonoBehaviour:
   leftTransform: {fileID: 2076497793}
   rightTransform: {fileID: 124405270}
   bossSpawnTransform: {fileID: 1318022699}
-  canSpawnBoss: 0
+  canSpawnBoss: 1
   spawnedCharacters: []
 --- !u!1001 &188491925
 PrefabInstance:

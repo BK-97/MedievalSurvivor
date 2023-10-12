@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponHolder : MonoBehaviour
 {
     public List<Weapon> Weapons;
-    [HideInInspector]
+    //[HideInInspector]
     public Weapon currentWeapon;
     
     public void WeaponChange(int index)

@@ -29,9 +29,11 @@ public class EnemyAnimationController : MonoBehaviour
     }
     public void CancelAttackAnimation()
     {
-        if (animator.GetBool(AnimationKeys.ATTACK_BOOL))
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
         {
             animator.SetTrigger(AnimationKeys.CANCEL_ATTACK);
+
             animator.SetBool(AnimationKeys.ATTACK_BOOL, false);
         }
     }

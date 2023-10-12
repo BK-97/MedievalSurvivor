@@ -7,14 +7,19 @@ using DG.Tweening;
 public class CharacterMovementController : MonoBehaviour
 {
     #region Params
-    public bool canRollOver;
     public RectTransform Indicator;
+
+    public bool canRollOver;
+
     private Rigidbody rb = null;
+
     private float maxSpeed;
     private float currentSpeed;
     private float rollOverCoolDown =3;
+
     const float ROTATE_SPEED=720;
     const float ACCELERATION = 3;
+
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     #endregion
@@ -22,12 +27,7 @@ public class CharacterMovementController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-    public void Initialize(int speed)
-    {
-        maxSpeed = speed;
-        canRollOver = true;
-    }
-
+    #region MoveMethods
     public void Move()
     {
         if (AnimController.IsRolling())
@@ -73,8 +73,17 @@ public class CharacterMovementController : MonoBehaviour
         yield return new WaitForSeconds(rollOverCoolDown);
         canRollOver = true;
     }
+    #endregion
+    #region GetSet
+    public void SetSpeed(int speed)
+    {
+        maxSpeed = speed;
+        canRollOver = true;
+    }
     public float GetCurrentSpeed()
     {
         return currentSpeed;
     }
+    #endregion
+
 }

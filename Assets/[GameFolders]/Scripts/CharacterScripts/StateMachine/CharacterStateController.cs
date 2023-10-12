@@ -30,10 +30,12 @@ public class CharacterStateController : MonoBehaviour
     private CharacterAnimationController animController;
     public CharacterAnimationController AnimController { get { return (animController == null) ? animController = GetComponent<CharacterAnimationController>() : animController; } }
     #endregion
+    #region Mono
+
     private void Start()
     {
         CharacterHealthController.OnHealthSet.Invoke(characterData.Health);
-        MovementController.Initialize(characterData.MoveSpeed);
+        MovementController.SetSpeed(characterData.MoveSpeed);
         AttackController.SetAttackData(characterData.BaseDamage, characterData.AttackRange);
         idleState.EnterState(this);
         currentState = idleState;
@@ -42,12 +44,15 @@ public class CharacterStateController : MonoBehaviour
     {
         CharacterAnimationController.OnStartSkillAnim.AddListener(()=>SwitchState(skillState));
         InputManager.OnRollOverInput.AddListener(RollOver);
+        InputManager.OnPassiveSkillInput.AddListener(PassiveSkill);
+        InputManager.OnWeaponSkillInput.AddListener(WeaponSkill);
     }
     private void OnDisable()
     {
         CharacterAnimationController.OnStartSkillAnim.RemoveListener(() => SwitchState(skillState));
         InputManager.OnRollOverInput.RemoveListener(RollOver);
-
+        InputManager.OnPassiveSkillInput.RemoveListener(PassiveSkill);
+        InputManager.OnWeaponSkillInput.RemoveListener(WeaponSkill);
     }
     private void Update()
     {
@@ -114,6 +119,8 @@ public class CharacterStateController : MonoBehaviour
         if (currentState == moveState)
             currentState.FixedUpdateState(this);
     }
+    #endregion
+    #region Methods
     public void SwitchState(BaseState changeState)
     {
         if (currentState == changeState)
@@ -129,6 +136,21 @@ public class CharacterStateController : MonoBehaviour
             AnimController.RollOver();
         }
     }
+    void PassiveSkill()
+    {
+        if(!AnimController.IsAttacking()&& !AnimController.IsRolling() && !AnimController.IsOnSkillAnim())
+        {
+            SkillController.UsePassiveSkill();
+        }
+    }
+    void WeaponSkill()
+    {
+        if (!AnimController.IsAttacking() && !AnimController.IsRolling() && !AnimController.IsOnSkillAnim())
+        {
+            SkillController.UseWeaponSkill();
+        }
+    }
+    #endregion
     #region CheckMethods
     public bool CheckMovementInput()
     {

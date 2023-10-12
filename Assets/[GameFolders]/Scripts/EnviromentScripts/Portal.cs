@@ -5,16 +5,21 @@ using UnityEngine.Events;
 
 public class Portal : MonoBehaviour,IInteractable
 {
-    public static StringEvent OnUsePortal = new StringEvent();
+    #region Events
+    public static UnityEvent OnUsePortal = new UnityEvent();
+    #endregion
+    #region Params
     public string portalNextLevelName;
     public bool canBeInteract { get; private set; }
+    #endregion
+    #region Methods
     private void OnEnable()
     {
-        Spawner.OnAllWavesEnd.AddListener(PortalOpen);
+        Spawner.OnAllEnemiesEnd.AddListener(PortalOpen);
     }
     private void OnDisable()
     {
-        Spawner.OnAllWavesEnd.RemoveListener(PortalOpen);
+        Spawner.OnAllEnemiesEnd.RemoveListener(PortalOpen);
     }
     private void PortalOpen()
     {
@@ -24,6 +29,7 @@ public class Portal : MonoBehaviour,IInteractable
     {
         if (!canBeInteract)
             return;
-        OnUsePortal.Invoke(portalNextLevelName);
+        OnUsePortal.Invoke();
     }
+    #endregion
 }

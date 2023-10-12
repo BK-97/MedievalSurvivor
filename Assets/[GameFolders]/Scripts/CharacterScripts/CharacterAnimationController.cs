@@ -126,7 +126,7 @@ public class CharacterAnimationController : MonoBehaviour
         foreach (Collider collider in hitColliders)
         {
             IDamagable damagable = collider.GetComponent<IDamagable>();
-            attackController.GiveDamage(damagable, 40);
+            attackController.GiveDamage(damagable, attackController.GetCurrentDamage()*2);
         }
     }
     #endregion
