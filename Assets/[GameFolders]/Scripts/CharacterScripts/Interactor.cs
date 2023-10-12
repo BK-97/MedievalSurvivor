@@ -19,7 +19,8 @@ public class Interactor : MonoBehaviour
     {
         if (!canInteract)
             return;
-
+        if (nearInteractable == null)
+            return;
         nearInteractable.Interact();
     }
     private void OnTriggerEnter(Collider other)
