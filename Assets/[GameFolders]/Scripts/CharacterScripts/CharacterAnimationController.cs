@@ -24,6 +24,7 @@ public class CharacterAnimationController : MonoBehaviour
     {
         skillController = GetComponent<SkillController>();
         attackController = GetComponent<CharacterAttackController>();
+        animator.applyRootMotion = false;
     }
     private void OnEnable()
     {
@@ -134,6 +135,7 @@ public class CharacterAnimationController : MonoBehaviour
     private void DeathAnim()
     {
         animator.Rebind();
+        animator.applyRootMotion = true;
         animator.SetTrigger(AnimationKeys.DIE);
     }
     #endregion
